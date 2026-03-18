@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import Header from '@/components/layout/Header'
 import PhaseProgressBar from '@/components/clients/PhaseProgressBar'
@@ -8,11 +8,11 @@ import { useClient } from '@/hooks/useClients'
 import { PHASES } from '@/lib/phases'
 
 interface Props {
-  params: Promise<{ id: string }>
+  params: { id: string }
 }
 
 export default function ClientePage({ params }: Props) {
-  const { id } = use(params)
+  const { id } = params
   const { client, loading, advancePhase, updateStatus } = useClient(id)
   const [advancing, setAdvancing] = useState(false)
   const [editingStatus, setEditingStatus] = useState(false)

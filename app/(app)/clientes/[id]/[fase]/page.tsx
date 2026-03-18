@@ -1,6 +1,5 @@
 'use client'
 
-import { use } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Header from '@/components/layout/Header'
@@ -11,11 +10,11 @@ import { useClient } from '@/hooks/useClients'
 import { getPhaseBySlug, PHASES } from '@/lib/phases'
 
 interface Props {
-  params: Promise<{ id: string; fase: string }>
+  params: { id: string; fase: string }
 }
 
 export default function ChecklistPage({ params }: Props) {
-  const { id, fase } = use(params)
+  const { id, fase } = params
   const phaseData = getPhaseBySlug(fase)
   const { client, loading: clientLoading, advancePhase } = useClient(id)
   const {
