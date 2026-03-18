@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    background-color: #1A1A1A;
+    color: #FFFFFF;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #242424;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #C9A84C;
+    border-radius: 3px;
+  }
+}
+
+@layer components {
+  /* Botões */
+  .btn-primary {
+    @apply bg-brand-gold text-brand-black font-semibold px-4 py-2 rounded-lg
+           hover:bg-brand-gold-light transition-colors duration-200 text-sm;
+  }
+  .btn-ghost {
+    @apply border border-brand-gold text-brand-gold px-4 py-2 rounded-lg
+           hover:bg-brand-gold-muted transition-colors duration-200 text-sm;
+  }
+  .btn-danger {
+    @apply bg-status-danger text-white px-4 py-2 rounded-lg
+           hover:opacity-90 transition-opacity duration-200 text-sm;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-brand-black-card border border-white/10 rounded-xl p-5;
+  }
+  .card-gold {
+    @apply bg-brand-black-card border border-brand-gold/30 rounded-xl p-5 shadow-gold;
+  }
+
+  /* Inputs */
+  .input {
+    @apply w-full bg-brand-black-soft border border-white/10 rounded-lg px-3 py-2
+           text-white placeholder-white/30 text-sm
+           focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold/30
+           transition-colors duration-200;
+  }
+  .label {
+    @apply block text-xs font-medium text-white/60 mb-1 uppercase tracking-wide;
+  }
+
+  /* Fases */
+  .phase-done {
+    @apply bg-brand-gold text-brand-black font-semibold;
+  }
+  .phase-active {
+    @apply bg-brand-gold-muted text-brand-gold border border-brand-gold font-semibold;
+  }
+  .phase-pending {
+    @apply bg-brand-black-soft text-white/30 border border-white/10;
+  }
+
+  /* Badge de status */
+  .badge-ok      { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-ok/20 text-status-ok; }
+  .badge-warning { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-warning/20 text-status-warning; }
+  .badge-danger  { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-danger/20 text-status-danger; }
+  .badge-paused  { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-paused/20 text-status-paused; }
+
+  /* Divider dourado */
+  .divider-gold {
+    @apply border-t border-brand-gold/20 my-4;
+  }
+
+  /* Checkbox customizado */
+  .checkbox-gold {
+    @apply w-5 h-5 rounded border-2 border-white/30 bg-transparent
+           checked:bg-brand-gold checked:border-brand-gold
+           focus:outline-none focus:ring-2 focus:ring-brand-gold/30
+           cursor-pointer transition-all duration-200;
+  }
+}
