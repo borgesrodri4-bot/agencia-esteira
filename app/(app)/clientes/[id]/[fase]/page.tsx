@@ -7,7 +7,7 @@ import Header from '@/components/layout/Header'
 import ChecklistItem from '@/components/checklist/ChecklistItem'
 import PhaseProgressBar from '@/components/clients/PhaseProgressBar'
 import { useChecklist } from '@/hooks/useChecklist'
-import { useClient, useClients } from '@/hooks/useClients'
+import { useClient } from '@/hooks/useClients'
 import { getPhaseBySlug, PHASES } from '@/lib/phases'
 
 interface Props {
@@ -17,13 +17,12 @@ interface Props {
 export default function ChecklistPage({ params }: Props) {
   const { id, fase } = use(params)
   const phaseData = getPhaseBySlug(fase)
-  const { client, loading: clientLoading, refetch: refetchClient } = useClient(id)
+  const { client, loading: clientLoading, advancePhase } = useClient(id)
   const {
-    items, loading, isCompleted, getResponse,
+    items, loading, getResponse,
     toggleItem, updateNote,
     completedCount, totalCount, allCompleted,
   } = useChecklist(id, phaseData?.num ?? 0)
-  const { advancePhase } = useClients()
   const router = useRouter()
 
   if (!phaseData) {
@@ -48,8 +47,7 @@ export default function ChecklistPage({ params }: Props) {
 
   async function handleAdvance() {
     if (!canAdvance || !client) return
-    await advancePhase(id, client.current_phase, client.current_phase + 1)
-    await refetchClient()
+    await advancePhase(client.current_phase, client.current_phase + 1)
     router.push(`/clientes/${id}`)
   }
 

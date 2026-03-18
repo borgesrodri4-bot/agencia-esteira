@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import type { Client, ClientStatus } from '@/lib/types'
+import type { Client } from '@/lib/types'
 
 export function useClients() {
   const [clients, setClients] = useState<Client[]>([])
@@ -18,17 +18,15 @@ export function useClients() {
       .order('created_at', { ascending: false })
 
     if (err) {
-      // Fallback: buscar sem join se o join falhar
       const { data: fallback } = await supabase
         .from('clients')
         .select('*')
         .order('created_at', { ascending: false })
       setClients(fallback || [])
-      setError(null)
     } else {
       setClients(data || [])
-      setError(null)
     }
+    setError(null)
     setLoading(false)
   }, [])
 
@@ -43,7 +41,7 @@ export function useClients() {
     contact_phone?: string
     responsible_id?: string
     notes?: string
-  }) {
+  }): Promise<Client> {
     const supabase = createClient()
     const { data: created, error: err } = await supabase
       .from('clients')
@@ -52,8 +50,9 @@ export function useClients() {
       .single()
 
     if (err) throw new Error(err.message)
+    if (!created) throw new Error('Nenhum dado retornado após inserção')
     await fetchClients()
-    return created
+    return created as Client
   }
 
   async function updateClient(id: string, data: Partial<Client>) {
@@ -67,28 +66,7 @@ export function useClients() {
     await fetchClients()
   }
 
-  async function advancePhase(clientId: string, fromPhase: number, toPhase: number) {
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-
-    const { error: updateErr } = await supabase
-      .from('clients')
-      .update({ current_phase: toPhase })
-      .eq('id', clientId)
-
-    if (updateErr) throw new Error(updateErr.message)
-
-    await supabase.from('phase_history').insert({
-      client_id: clientId,
-      from_phase: fromPhase,
-      to_phase: toPhase,
-      changed_by: user?.id ?? null,
-    })
-
-    await fetchClients()
-  }
-
-  return { clients, loading, error, refetch: fetchClients, addClient, updateClient, advancePhase }
+  return { clients, loading, error, refetch: fetchClients, addClient, updateClient }
 }
 
 export function useClient(id: string) {
@@ -107,15 +85,14 @@ export function useClient(id: string) {
       .single()
 
     if (err) {
-      // Fallback sem join
       const { data: fallback } = await supabase
         .from('clients')
         .select('*')
         .eq('id', id)
         .single()
-      setClient(fallback)
+      setClient(fallback ?? null)
     } else {
-      setClient(data)
+      setClient(data ?? null)
     }
     setLoading(false)
   }, [id])
@@ -124,5 +101,40 @@ export function useClient(id: string) {
     fetchClient()
   }, [fetchClient])
 
-  return { client, loading, refetch: fetchClient }
+  // advancePhase fica no useClient para não precisar buscar TODOS os clientes
+  async function advancePhase(fromPhase: number, toPhase: number) {
+    if (!id) return
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    const { error: updateErr } = await supabase
+      .from('clients')
+      .update({ current_phase: toPhase })
+      .eq('id', id)
+
+    if (updateErr) throw new Error(updateErr.message)
+
+    await supabase.from('phase_history').insert({
+      client_id: id,
+      from_phase: fromPhase,
+      to_phase: toPhase,
+      changed_by: user?.id ?? null,
+    })
+
+    await fetchClient()
+  }
+
+  async function updateStatus(status: 'active' | 'paused' | 'churned') {
+    if (!id) return
+    const supabase = createClient()
+    const { error: err } = await supabase
+      .from('clients')
+      .update({ status })
+      .eq('id', id)
+
+    if (err) throw new Error(err.message)
+    await fetchClient()
+  }
+
+  return { client, loading, refetch: fetchClient, advancePhase, updateStatus }
 }

@@ -2,10 +2,9 @@
 
 import { use, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import Header from '@/components/layout/Header'
 import PhaseProgressBar from '@/components/clients/PhaseProgressBar'
-import { useClient, useClients } from '@/hooks/useClients'
+import { useClient } from '@/hooks/useClients'
 import { PHASES } from '@/lib/phases'
 
 interface Props {
@@ -14,11 +13,9 @@ interface Props {
 
 export default function ClientePage({ params }: Props) {
   const { id } = use(params)
-  const { client, loading, refetch } = useClient(id)
-  const { advancePhase, updateClient } = useClients()
+  const { client, loading, advancePhase, updateStatus } = useClient(id)
   const [advancing, setAdvancing] = useState(false)
   const [editingStatus, setEditingStatus] = useState(false)
-  const router = useRouter()
 
   if (loading) {
     return (
@@ -50,17 +47,17 @@ export default function ClientePage({ params }: Props) {
     if (!canAdvance) return
     setAdvancing(true)
     try {
-      await advancePhase(id, client!.current_phase, client!.current_phase + 1)
-      await refetch()
+      await advancePhase(client!.current_phase, client!.current_phase + 1)
+    } catch (e) {
+      console.error('Erro ao avançar fase:', e)
     } finally {
       setAdvancing(false)
     }
   }
 
   async function handleStatusChange(newStatus: 'active' | 'paused' | 'churned') {
-    await updateClient(id, { status: newStatus })
+    await updateStatus(newStatus)
     setEditingStatus(false)
-    await refetch()
   }
 
   const responsible = client.responsible as { id: string; name: string } | null | undefined
@@ -169,7 +166,7 @@ export default function ClientePage({ params }: Props) {
             )}
             <div>
               <span className="text-white/40">Início: </span>
-              <span className="text-white">{new Date(client.started_at).toLocaleDateString('pt-BR')}</span>
+              <span className="text-white">{new Date(client.started_at + 'T12:00:00').toLocaleDateString('pt-BR')}</span>
             </div>
           </div>
           {client.notes && (

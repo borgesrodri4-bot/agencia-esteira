@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { ChecklistItem as ChecklistItemType, ChecklistResponse } from '@/lib/types'
 
 interface Props {
@@ -16,6 +16,12 @@ export default function ChecklistItem({ item, response, onToggle, onNoteUpdate }
   const [noteValue, setNoteValue] = useState(response?.note ?? '')
   const [savingNote, setSavingNote] = useState(false)
   const completed = response?.completed ?? false
+
+  // Sincroniza estado local quando response muda após re-fetch
+  useEffect(() => {
+    setNoteValue(response?.note ?? '')
+    if (response?.note) setShowNote(true)
+  }, [response?.note])
 
   async function handleToggle() {
     setToggling(true)
