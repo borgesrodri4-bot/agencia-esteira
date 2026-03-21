@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Esteira de Produção | Agência',
-  description: 'Gestão da esteira de produção da agência de marketing',
+  title: 'Agência Kolhey',
+  description: 'Painel de gestão da Agência Kolhey — Resultados que se cultivam',
 }
 
 export default function RootLayout({

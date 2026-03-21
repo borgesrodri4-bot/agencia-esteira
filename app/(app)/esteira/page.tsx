@@ -157,7 +157,7 @@ export default function EsteiraPage() {
         <div className="card-gold">
           <div className="flex items-start gap-4 flex-wrap">
             <div className="flex-1 min-w-0">
-              <h2 className="text-brand-orange font-bold text-xl mb-1">Esteira da Agência</h2>
+              <h2 className="text-brand-orange font-bold text-xl mb-1">Esteira da Agência Kolhey</h2>
               <p className="text-white/50 text-xs uppercase tracking-wide mb-3">
                 7 Fases · 3 Princípios · Uso imediato · Da Captação à Retenção — Replicável por cliente
               </p>
@@ -565,7 +565,7 @@ export default function EsteiraPage() {
 
         {/* Indicadores Globais */}
         <div className="card">
-          <h3 className="text-brand-orange font-bold mb-4">Indicadores Globais da Agência</h3>
+          <h3 className="text-brand-orange font-bold mb-4">Indicadores Globais da Agência Kolhey</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             {[
               { kpi: 'Churn Rate', formula: '(Clientes perdidos / Total) × 100', meta: '< 5% ao mês' },
@@ -587,7 +587,7 @@ export default function EsteiraPage() {
         </div>
 
         <p className="text-white/20 text-xs text-center pb-4">
-          Esteira da Agência · Método Operacional Simplificado · 2026 · Documento confidencial — Uso interno
+          Agência Kolhey · Método Operacional Simplificado · 2026 · Documento confidencial — Uso interno
         </p>
       </main>
     </div>
