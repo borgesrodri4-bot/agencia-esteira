@@ -40,7 +40,7 @@ export default function ClientCard({ client }: ClientCardProps) {
   return (
     <Link
       href={`/clientes/${client.id}`}
-      className="card hover:border-brand-gold/40 hover:shadow-gold-lg transition-all duration-200 block"
+      className="card hover:border-brand-orange/40 hover:shadow-orange-lg transition-all duration-200 block"
     >
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="min-w-0">

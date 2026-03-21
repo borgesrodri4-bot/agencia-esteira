@@ -29,7 +29,7 @@ export default function Header({ title, subtitle }: HeaderProps) {
   }, [])
 
   return (
-    <header className="h-16 border-b border-white/5 flex items-center justify-between px-6 bg-brand-black-soft flex-shrink-0">
+    <header className="h-16 border-b border-white/5 flex items-center justify-between px-6 bg-brand-navy-soft flex-shrink-0">
       <div>
         <h1 className="text-white font-semibold text-lg leading-none">{title}</h1>
         {subtitle && <p className="text-white/40 text-xs mt-0.5">{subtitle}</p>}
@@ -41,8 +41,8 @@ export default function Header({ title, subtitle }: HeaderProps) {
             <p className="text-white text-sm font-medium leading-none">{name}</p>
             <p className="text-white/40 text-xs mt-0.5">{role === 'admin' ? 'Administrador' : 'Colaborador'}</p>
           </div>
-          <div className="w-8 h-8 bg-brand-gold rounded-full flex items-center justify-center">
-            <span className="text-brand-black font-bold text-sm">
+          <div className="w-8 h-8 bg-orange-gradient rounded-full flex items-center justify-center">
+            <span className="text-white font-bold text-sm">
               {name.charAt(0).toUpperCase()}
             </span>
           </div>

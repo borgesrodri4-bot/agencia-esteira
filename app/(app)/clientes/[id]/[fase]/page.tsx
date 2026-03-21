@@ -66,7 +66,7 @@ export default function ChecklistPage({ params }: Props) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div>
               <p className="text-white/40 text-xs uppercase tracking-wide mb-1">SLA</p>
-              <p className="text-brand-gold font-medium">{phaseData.sla}</p>
+              <p className="text-brand-orange font-medium">{phaseData.sla}</p>
             </div>
             <div>
               <p className="text-white/40 text-xs uppercase tracking-wide mb-1">Responsável</p>
@@ -75,9 +75,9 @@ export default function ChecklistPage({ params }: Props) {
             <div>
               <p className="text-white/40 text-xs uppercase tracking-wide mb-1">Progresso</p>
               <div className="flex items-center gap-2">
-                <div className="flex-1 h-1.5 bg-brand-black-soft rounded-full overflow-hidden">
+                <div className="flex-1 h-1.5 bg-brand-navy-soft rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-brand-gold rounded-full transition-all duration-500"
+                    className="h-full bg-brand-orange rounded-full transition-all duration-500"
                     style={{ width: totalCount > 0 ? `${(completedCount / totalCount) * 100}%` : '0%' }}
                   />
                 </div>
@@ -117,7 +117,7 @@ export default function ChecklistPage({ params }: Props) {
             {canAdvance ? (
               <div className="flex items-center justify-between gap-4 flex-wrap">
                 <div>
-                  <p className="text-brand-gold font-semibold">Todos os itens concluídos!</p>
+                  <p className="text-brand-orange font-semibold">Todos os itens concluídos!</p>
                   <p className="text-white/50 text-sm mt-0.5">
                     Pronto para avançar para {nextPhase?.label}.
                   </p>
@@ -128,7 +128,7 @@ export default function ChecklistPage({ params }: Props) {
               </div>
             ) : phaseData.num === 7 ? (
               <div className="text-center">
-                <p className="text-brand-gold font-semibold">Esteira completa!</p>
+                <p className="text-brand-orange font-semibold">Esteira completa!</p>
                 <p className="text-white/50 text-sm mt-1">Este cliente concluiu todas as 7 fases.</p>
               </div>
             ) : null}
@@ -142,7 +142,7 @@ export default function ChecklistPage({ params }: Props) {
             <ul className="space-y-1.5">
               {phaseData.entregas.map((e, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-white/70">
-                  <span className="text-brand-gold mt-0.5 flex-shrink-0">◆</span> {e}
+                  <span className="text-brand-orange mt-0.5 flex-shrink-0">◆</span> {e}
                 </li>
               ))}
             </ul>

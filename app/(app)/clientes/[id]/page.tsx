@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import Header from '@/components/layout/Header'
 import PhaseProgressBar from '@/components/clients/PhaseProgressBar'
-import { useClient } from '@/hooks/useClients'
+import { useClient, useClients } from '@/hooks/useClients'
 import { PHASES } from '@/lib/phases'
 
 interface Props {
@@ -13,9 +14,16 @@ interface Props {
 
 export default function ClientePage({ params }: Props) {
   const { id } = params
-  const { client, loading, advancePhase, updateStatus } = useClient(id)
+  const router = useRouter()
+  const { client, loading, advancePhase, regressPhase, updateStatus } = useClient(id)
+  const { deleteClient } = useClients()
+
   const [advancing, setAdvancing] = useState(false)
   const [editingStatus, setEditingStatus] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showRegressModal, setShowRegressModal] = useState(false)
+  const [actionLoading, setActionLoading] = useState(false)
+  const [actionError, setActionError] = useState<string | null>(null)
 
   if (loading) {
     return (
@@ -36,6 +44,7 @@ export default function ClientePage({ params }: Props) {
 
   const currentPhaseData = PHASES.find(p => p.num === client.current_phase)
   const canAdvance = client.current_phase < 7 && client.status === 'active'
+  const canRegress = client.current_phase > 1 && client.status === 'active'
 
   const statusOptions: { value: 'active' | 'paused' | 'churned'; label: string }[] = [
     { value: 'active', label: 'Ativo' },
@@ -60,6 +69,32 @@ export default function ClientePage({ params }: Props) {
     setEditingStatus(false)
   }
 
+  async function handleRegress() {
+    if (!client) return
+    setActionLoading(true)
+    setActionError(null)
+    try {
+      await regressPhase(client.current_phase, client.current_phase - 1)
+      setShowRegressModal(false)
+    } catch (e: any) {
+      setActionError(e.message)
+    } finally {
+      setActionLoading(false)
+    }
+  }
+
+  async function handleDelete() {
+    setActionLoading(true)
+    setActionError(null)
+    try {
+      await deleteClient(id)
+      router.push('/clientes')
+    } catch (e: any) {
+      setActionError(e.message)
+      setActionLoading(false)
+    }
+  }
+
   const responsible = client.responsible as { id: string; name: string } | null | undefined
 
   return (
@@ -75,7 +110,7 @@ export default function ClientePage({ params }: Props) {
               <div className="flex items-center gap-2">
                 <span className="text-2xl">{currentPhaseData?.icon}</span>
                 <div>
-                  <p className="text-brand-gold font-semibold">
+                  <p className="text-brand-orange font-semibold">
                     Fase {client.current_phase}: {currentPhaseData?.label}
                   </p>
                   <p className="text-white/40 text-xs">SLA: {currentPhaseData?.sla}</p>
@@ -92,8 +127,8 @@ export default function ClientePage({ params }: Props) {
                       onClick={() => handleStatusChange(opt.value)}
                       className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
                         client.status === opt.value
-                          ? 'bg-brand-gold text-brand-black border-brand-gold'
-                          : 'border-white/20 text-white/60 hover:border-brand-gold/40'
+                          ? 'bg-brand-orange text-white border-brand-orange'
+                          : 'border-white/20 text-white/60 hover:border-brand-orange/40'
                       }`}
                     >
                       {opt.label}
@@ -106,6 +141,16 @@ export default function ClientePage({ params }: Props) {
                   {statusOptions.find(o => o.value === client.status)?.label ?? client.status}
                 </button>
               )}
+
+              {canRegress && (
+                <button
+                  onClick={() => setShowRegressModal(true)}
+                  className="btn-ghost text-xs"
+                >
+                  ← Voltar fase
+                </button>
+              )}
+
               {canAdvance && (
                 <button
                   onClick={handleAdvance}
@@ -133,13 +178,13 @@ export default function ClientePage({ params }: Props) {
                   href={isAccessible ? `/clientes/${id}/${phase.slug}` : '#'}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg border transition-colors duration-200 ${
                     isAccessible
-                      ? 'border-white/10 hover:border-brand-gold/30 hover:bg-brand-gold-muted'
+                      ? 'border-white/10 hover:border-brand-orange/30 hover:bg-brand-orange-muted'
                       : 'border-white/5 opacity-30 cursor-not-allowed pointer-events-none'
                   }`}
                 >
                   <span className="text-lg">{phase.icon}</span>
                   <div className="min-w-0">
-                    <p className={`text-sm font-medium ${phase.num === client.current_phase ? 'text-brand-gold' : 'text-white'}`}>
+                    <p className={`text-sm font-medium ${phase.num === client.current_phase ? 'text-brand-orange' : 'text-white'}`}>
                       Fase {phase.num}: {phase.label}
                     </p>
                     <p className="text-white/30 text-xs">SLA: {phase.sla}</p>
@@ -176,7 +221,83 @@ export default function ClientePage({ params }: Props) {
             </div>
           )}
         </div>
+
+        {/* Zona de perigo */}
+        <section className="border border-dashed border-red-800/40 rounded-lg p-4">
+          <p className="text-red-400/70 text-xs uppercase tracking-wide mb-3">Zona de perigo</p>
+          <button
+            onClick={() => { setActionError(null); setShowDeleteModal(true) }}
+            className="text-xs border border-red-500/50 text-red-400 hover:bg-red-500/10 px-4 py-2 rounded-lg transition-colors"
+          >
+            Excluir cliente
+          </button>
+        </section>
       </main>
+
+      {/* Modal — Voltar fase */}
+      {showRegressModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-brand-navy-soft border border-white/10 rounded-xl p-6 max-w-sm w-full space-y-4">
+            <h3 className="text-white font-semibold">Voltar fase</h3>
+            <p className="text-white/60 text-sm">
+              Deseja retroceder <strong className="text-white">{client.name}</strong> da{' '}
+              <strong className="text-brand-orange">
+                Fase {client.current_phase}: {PHASES.find(p => p.num === client.current_phase)?.label}
+              </strong>{' '}
+              para a{' '}
+              <strong className="text-white/80">
+                Fase {client.current_phase - 1}: {PHASES.find(p => p.num === client.current_phase - 1)?.label}
+              </strong>?
+            </p>
+            {actionError && <p className="text-red-400 text-xs">{actionError}</p>}
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowRegressModal(false)}
+                className="btn-ghost text-xs"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleRegress}
+                disabled={actionLoading}
+                className="text-xs bg-yellow-600/20 border border-yellow-600/40 text-yellow-400 hover:bg-yellow-600/30 px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+              >
+                {actionLoading ? '...' : 'Voltar fase'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal — Excluir cliente */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-brand-navy-soft border border-white/10 rounded-xl p-6 max-w-sm w-full space-y-4">
+            <h3 className="text-white font-semibold">Excluir cliente</h3>
+            <p className="text-white/60 text-sm">
+              Tem certeza que deseja excluir{' '}
+              <strong className="text-white">{client.name}</strong>?{' '}
+              Esta ação não pode ser desfeita.
+            </p>
+            {actionError && <p className="text-red-400 text-xs">{actionError}</p>}
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="btn-ghost text-xs"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleDelete}
+                disabled={actionLoading}
+                className="text-xs bg-red-600/20 border border-red-500/50 text-red-400 hover:bg-red-600/30 px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+              >
+                {actionLoading ? '...' : 'Excluir'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

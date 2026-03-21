@@ -46,8 +46,8 @@ export default function ChecklistItem({ item, response, onToggle, onNoteUpdate }
   return (
     <div className={`p-4 rounded-lg border transition-colors duration-200 ${
       completed
-        ? 'bg-brand-gold-muted border-brand-gold/20'
-        : 'bg-brand-black-card border-white/10 hover:border-white/20'
+        ? 'bg-brand-orange-muted border-brand-orange/20'
+        : 'bg-brand-navy-card border-white/10 hover:border-white/20'
     }`}>
       <div className="flex items-start gap-3">
         <button
@@ -55,11 +55,11 @@ export default function ChecklistItem({ item, response, onToggle, onNoteUpdate }
           disabled={toggling}
           className={`flex-shrink-0 w-5 h-5 rounded border-2 mt-0.5 transition-all duration-200 flex items-center justify-center ${
             completed
-              ? 'bg-brand-gold border-brand-gold'
-              : 'border-white/30 hover:border-brand-gold'
+              ? 'bg-brand-orange border-brand-orange'
+              : 'border-white/30 hover:border-brand-orange'
           } disabled:opacity-50`}
         >
-          {completed && <span className="text-brand-black text-xs font-bold">✓</span>}
+          {completed && <span className="text-white text-xs font-bold">✓</span>}
         </button>
 
         <div className="flex-1 min-w-0">
@@ -68,7 +68,7 @@ export default function ChecklistItem({ item, response, onToggle, onNoteUpdate }
               {item.title}
             </p>
             {slaLabel && (
-              <span className="text-xs px-1.5 py-0.5 rounded bg-brand-black-soft text-white/40 flex-shrink-0">
+              <span className="text-xs px-1.5 py-0.5 rounded bg-brand-navy-soft text-white/40 flex-shrink-0">
                 SLA {slaLabel}
               </span>
             )}
@@ -87,7 +87,7 @@ export default function ChecklistItem({ item, response, onToggle, onNoteUpdate }
                 <button
                   onClick={handleNoteSave}
                   disabled={savingNote}
-                  className="text-xs px-2.5 py-1 bg-brand-gold text-brand-black rounded font-medium disabled:opacity-50"
+                  className="text-xs px-2.5 py-1 bg-brand-orange text-white rounded font-medium disabled:opacity-50"
                 >
                   {savingNote ? '...' : 'Salvar'}
                 </button>
@@ -106,7 +106,7 @@ export default function ChecklistItem({ item, response, onToggle, onNoteUpdate }
               )}
               <button
                 onClick={() => setShowNote(true)}
-                className="text-xs text-white/20 hover:text-brand-gold transition-colors flex-shrink-0"
+                className="text-xs text-white/20 hover:text-brand-orange transition-colors flex-shrink-0"
               >
                 {response?.note ? 'Editar nota' : '+ Nota'}
               </button>

@@ -66,7 +66,17 @@ export function useClients() {
     await fetchClients()
   }
 
-  return { clients, loading, error, refetch: fetchClients, addClient, updateClient }
+  async function deleteClient(id: string): Promise<void> {
+    const supabase = createClient()
+    const { error: err } = await supabase
+      .from('clients')
+      .delete()
+      .eq('id', id)
+
+    if (err) throw new Error(err.message)
+  }
+
+  return { clients, loading, error, refetch: fetchClients, addClient, updateClient, deleteClient }
 }
 
 export function useClient(id: string) {
@@ -136,5 +146,27 @@ export function useClient(id: string) {
     await fetchClient()
   }
 
-  return { client, loading, refetch: fetchClient, advancePhase, updateStatus }
+  async function regressPhase(fromPhase: number, toPhase: number) {
+    if (!id || toPhase < 1) return
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    const { error: updateErr } = await supabase
+      .from('clients')
+      .update({ current_phase: toPhase })
+      .eq('id', id)
+
+    if (updateErr) throw new Error(updateErr.message)
+
+    await supabase.from('phase_history').insert({
+      client_id: id,
+      from_phase: fromPhase,
+      to_phase: toPhase,
+      changed_by: user?.id ?? null,
+    })
+
+    await fetchClient()
+  }
+
+  return { client, loading, refetch: fetchClient, advancePhase, regressPhase, updateStatus }
 }

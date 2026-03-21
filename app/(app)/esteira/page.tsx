@@ -157,7 +157,7 @@ export default function EsteiraPage() {
         <div className="card-gold">
           <div className="flex items-start gap-4 flex-wrap">
             <div className="flex-1 min-w-0">
-              <h2 className="text-brand-gold font-bold text-xl mb-1">Esteira da Agência</h2>
+              <h2 className="text-brand-orange font-bold text-xl mb-1">Esteira da Agência</h2>
               <p className="text-white/50 text-xs uppercase tracking-wide mb-3">
                 7 Fases · 3 Princípios · Uso imediato · Da Captação à Retenção — Replicável por cliente
               </p>
@@ -172,12 +172,12 @@ export default function EsteiraPage() {
               <a
                 key={p.num}
                 href={`#fase-${p.num}`}
-                className="text-xs px-3 py-1 rounded-full border border-brand-gold/30 text-brand-gold hover:bg-brand-gold-muted transition-colors"
+                className="text-xs px-3 py-1 rounded-full border border-brand-orange/30 text-brand-orange hover:bg-brand-orange-muted transition-colors"
               >
                 {p.icon} F{p.num}: {p.label}
               </a>
             ))}
-            <a href="#primeiros-7-dias" className="text-xs px-3 py-1 rounded-full border border-white/20 text-white/60 hover:border-brand-gold/30 hover:text-brand-gold transition-colors">
+            <a href="#primeiros-7-dias" className="text-xs px-3 py-1 rounded-full border border-white/20 text-white/60 hover:border-brand-orange/30 hover:text-brand-orange transition-colors">
               📅 Primeiros 7 Dias
             </a>
           </div>
@@ -188,8 +188,8 @@ export default function EsteiraPage() {
           <h3 className="text-white/40 text-xs uppercase tracking-widest mb-3">3 Princípios Inegociáveis</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {PRINCIPIOS.map(p => (
-              <div key={p.num} className="card border-brand-gold/20">
-                <p className="text-brand-gold text-2xl font-bold mb-2">{p.num}</p>
+              <div key={p.num} className="card border-brand-orange/20">
+                <p className="text-brand-orange text-2xl font-bold mb-2">{p.num}</p>
                 <p className="text-white font-semibold text-sm mb-1">{p.titulo}</p>
                 <p className="text-white/50 text-xs leading-relaxed">{p.descricao}</p>
               </div>
@@ -199,7 +199,7 @@ export default function EsteiraPage() {
 
         {/* Visão geral das 7 fases */}
         <div className="card">
-          <h3 className="text-brand-gold font-bold mb-4">Visão Geral — 7 Fases</h3>
+          <h3 className="text-brand-orange font-bold mb-4">Visão Geral — 7 Fases</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -221,11 +221,11 @@ export default function EsteiraPage() {
                   { num: '06', nome: 'Relatório', resp: 'Analista', prazo: 'Dia 5/mês', entregavel: 'Dados analisados + plano do próximo mês' },
                   { num: '07', nome: 'Retenção', resp: 'CS + Account', prazo: 'Contínuo', entregavel: 'Cliente renovado e indicando' },
                 ].map(row => (
-                  <tr key={row.num} className="border-b border-white/5 hover:bg-brand-black-soft/50">
-                    <td className="py-2.5 pr-3"><span className="text-brand-gold font-bold">{row.num}</span></td>
+                  <tr key={row.num} className="border-b border-white/5 hover:bg-brand-navy-soft/50">
+                    <td className="py-2.5 pr-3"><span className="text-brand-orange font-bold">{row.num}</span></td>
                     <td className="py-2.5 pr-3 text-white font-medium">{row.nome}</td>
                     <td className="py-2.5 pr-3 text-white/60">{row.resp}</td>
-                    <td className="py-2.5 pr-3 text-brand-gold text-xs">{row.prazo}</td>
+                    <td className="py-2.5 pr-3 text-brand-orange text-xs">{row.prazo}</td>
                     <td className="py-2.5 text-white/70 text-xs">{row.entregavel}</td>
                   </tr>
                 ))}
@@ -248,9 +248,9 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Qualificação BANT — Critério mínimo: 3 de 4</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {BANT.map(b => (
-                <div key={b.letra} className="flex gap-3 p-3 bg-brand-black-soft rounded-lg">
-                  <div className="w-8 h-8 bg-brand-gold rounded-lg flex items-center justify-center flex-shrink-0">
-                    <span className="text-brand-black font-bold text-sm">{b.letra}</span>
+                <div key={b.letra} className="flex gap-3 p-3 bg-brand-navy-soft rounded-lg">
+                  <div className="w-8 h-8 bg-brand-orange rounded-lg flex items-center justify-center flex-shrink-0">
+                    <span className="text-brand-navy font-bold text-sm">{b.letra}</span>
                   </div>
                   <div>
                     <p className="text-white text-xs font-medium">{b.criterio}</p>
@@ -271,8 +271,8 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Script de Prospecção Ativa — 4 blocos</p>
             <div className="space-y-2">
               {SCRIPT_PROSPECCAO.map((s, i) => (
-                <div key={i} className="flex gap-3 p-3 bg-brand-black-soft rounded-lg">
-                  <span className="text-brand-gold font-bold text-xs w-24 flex-shrink-0">{s.bloco}</span>
+                <div key={i} className="flex gap-3 p-3 bg-brand-navy-soft rounded-lg">
+                  <span className="text-brand-orange font-bold text-xs w-24 flex-shrink-0">{s.bloco}</span>
                   <p className="text-white/70 text-sm italic">{s.conteudo}</p>
                 </div>
               ))}
@@ -284,7 +284,7 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Classificação de Leads</p>
             <div className="space-y-2">
               {LEADS.map((l, i) => (
-                <div key={i} className="flex gap-3 p-3 bg-brand-black-soft rounded-lg items-start">
+                <div key={i} className="flex gap-3 p-3 bg-brand-navy-soft rounded-lg items-start">
                   <div className="flex-1">
                     <p className="text-white text-sm font-medium">{l.tipo}</p>
                     <p className="text-white/50 text-xs mt-0.5">{l.criterio}</p>
@@ -312,8 +312,8 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Roteiro SPIN — 45 a 60 min</p>
             <div className="space-y-3">
               {SPIN.map(s => (
-                <div key={s.tipo} className="p-3 bg-brand-black-soft rounded-lg">
-                  <p className="text-brand-gold text-xs font-semibold uppercase tracking-wide mb-2">{s.tipo}</p>
+                <div key={s.tipo} className="p-3 bg-brand-navy-soft rounded-lg">
+                  <p className="text-brand-orange text-xs font-semibold uppercase tracking-wide mb-2">{s.tipo}</p>
                   <ul className="space-y-1">
                     {s.perguntas.map((p, i) => (
                       <li key={i} className="text-white/70 text-sm flex gap-2">
@@ -331,8 +331,8 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Estrutura da Proposta — 1 Página, 7 Blocos</p>
             <div className="space-y-1.5">
               {PROPOSTA_BLOCOS.map((b, i) => (
-                <div key={i} className="flex gap-3 p-2.5 bg-brand-black-soft rounded-lg">
-                  <span className="text-brand-gold text-xs font-semibold w-36 flex-shrink-0">{b.bloco}</span>
+                <div key={i} className="flex gap-3 p-2.5 bg-brand-navy-soft rounded-lg">
+                  <span className="text-brand-orange text-xs font-semibold w-36 flex-shrink-0">{b.bloco}</span>
                   <span className="text-white/60 text-xs">{b.conteudo}</span>
                 </div>
               ))}
@@ -350,7 +350,7 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Objeções mais comuns</p>
             <div className="space-y-2">
               {OBJECOES.map((o, i) => (
-                <div key={i} className="p-3 bg-brand-black-soft rounded-lg">
+                <div key={i} className="p-3 bg-brand-navy-soft rounded-lg">
                   <p className="text-white font-medium text-sm mb-1">{o.objecao}</p>
                   <p className="text-white/60 text-xs">{o.resposta}</p>
                 </div>
@@ -374,8 +374,8 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Checklist de Onboarding — Dia 1 e 2</p>
             <div className="space-y-2">
               {CHECKLIST_ONBOARDING.map((item, i) => (
-                <div key={i} className="flex gap-3 p-2.5 bg-brand-black-soft rounded-lg items-start">
-                  <span className="text-brand-gold mt-0.5 flex-shrink-0">☐</span>
+                <div key={i} className="flex gap-3 p-2.5 bg-brand-navy-soft rounded-lg items-start">
+                  <span className="text-brand-orange mt-0.5 flex-shrink-0">☐</span>
                   <span className="text-white/70 text-sm">{item}</span>
                 </div>
               ))}
@@ -398,8 +398,8 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Estrutura do Plano de 90 Dias</p>
             <div className="space-y-2">
               {PLANO_90_DIAS.map((b, i) => (
-                <div key={i} className="flex gap-3 p-3 bg-brand-black-soft rounded-lg">
-                  <span className="text-brand-gold text-xs font-semibold w-44 flex-shrink-0">{b.bloco}</span>
+                <div key={i} className="flex gap-3 p-3 bg-brand-navy-soft rounded-lg">
+                  <span className="text-brand-orange text-xs font-semibold w-44 flex-shrink-0">{b.bloco}</span>
                   <span className="text-white/60 text-xs">{b.define}</span>
                 </div>
               ))}
@@ -422,9 +422,9 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Fluxo de Produção por Peça</p>
             <div className="space-y-1.5">
               {FLUXO_PRODUCAO.map((f, i) => (
-                <div key={i} className="flex gap-3 p-2.5 bg-brand-black-soft rounded-lg items-start">
-                  <div className="w-5 h-5 bg-brand-gold/20 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-brand-gold text-xs font-bold">{i + 1}</span>
+                <div key={i} className="flex gap-3 p-2.5 bg-brand-navy-soft rounded-lg items-start">
+                  <div className="w-5 h-5 bg-brand-orange/20 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-brand-orange text-xs font-bold">{i + 1}</span>
                   </div>
                   <div>
                     <p className="text-white text-xs font-medium">{f.etapa}</p>
@@ -439,8 +439,8 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Regras de Produção</p>
             <div className="space-y-1.5">
               {REGRAS_PRODUCAO.map((r, i) => (
-                <div key={i} className="flex gap-2 p-2.5 bg-brand-black-soft rounded-lg">
-                  <span className="text-brand-gold flex-shrink-0">☐</span>
+                <div key={i} className="flex gap-2 p-2.5 bg-brand-navy-soft rounded-lg">
+                  <span className="text-brand-orange flex-shrink-0">☐</span>
                   <span className="text-white/70 text-sm">{r}</span>
                 </div>
               ))}
@@ -463,8 +463,8 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Estrutura do Relatório Mensal</p>
             <div className="space-y-1.5">
               {RELATORIO_BLOCOS.map((b, i) => (
-                <div key={i} className="flex gap-3 p-2.5 bg-brand-black-soft rounded-lg">
-                  <span className="text-brand-gold text-xs font-semibold w-36 flex-shrink-0">{b.bloco}</span>
+                <div key={i} className="flex gap-3 p-2.5 bg-brand-navy-soft rounded-lg">
+                  <span className="text-brand-orange text-xs font-semibold w-36 flex-shrink-0">{b.bloco}</span>
                   <span className="text-white/60 text-xs">{b.conteudo}</span>
                 </div>
               ))}
@@ -494,8 +494,8 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Protocolo de Contato 30-60-90 Dias</p>
             <div className="space-y-2">
               {PROTOCOLO_CONTATO.map((p, i) => (
-                <div key={i} className="flex gap-3 p-2.5 bg-brand-black-soft rounded-lg items-start">
-                  <span className="text-brand-gold text-xs font-bold w-20 flex-shrink-0">{p.momento}</span>
+                <div key={i} className="flex gap-3 p-2.5 bg-brand-navy-soft rounded-lg items-start">
+                  <span className="text-brand-orange text-xs font-bold w-20 flex-shrink-0">{p.momento}</span>
                   <span className="text-white/70 text-sm">{p.acao}</span>
                 </div>
               ))}
@@ -520,8 +520,8 @@ export default function EsteiraPage() {
             <p className="text-white/40 text-xs uppercase tracking-wide mb-3">Escada de Recomendação — Objetivo: Nível 4 ou 5</p>
             <div className="space-y-1.5">
               {ESCADA_RECOMENDACAO.map((e, i) => (
-                <div key={i} className="flex gap-3 p-2.5 bg-brand-black-soft rounded-lg items-center">
-                  <span className="text-brand-gold text-xs font-semibold w-36 flex-shrink-0">{e.nivel}</span>
+                <div key={i} className="flex gap-3 p-2.5 bg-brand-navy-soft rounded-lg items-center">
+                  <span className="text-brand-orange text-xs font-semibold w-36 flex-shrink-0">{e.nivel}</span>
                   <span className="text-white/60 text-xs">{e.comportamento}</span>
                 </div>
               ))}
@@ -533,7 +533,7 @@ export default function EsteiraPage() {
 
         {/* ── PRIMEIROS 7 DIAS ── */}
         <div id="primeiros-7-dias" className="card scroll-mt-6">
-          <h3 className="text-brand-gold font-bold text-base mb-1">Primeiros 7 Dias — Ações Prioritárias</h3>
+          <h3 className="text-brand-orange font-bold text-base mb-1">Primeiros 7 Dias — Ações Prioritárias</h3>
           <p className="text-white/50 text-xs mb-4">Execute na ordem. Sem atalhos. Para todo novo cliente.</p>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -547,9 +547,9 @@ export default function EsteiraPage() {
               </thead>
               <tbody>
                 {PRIMEIROS_7_DIAS.map((r, i) => (
-                  <tr key={i} className="border-b border-white/5 hover:bg-brand-black-soft/50">
+                  <tr key={i} className="border-b border-white/5 hover:bg-brand-navy-soft/50">
                     <td className="py-2.5 pr-3">
-                      <span className="inline-flex w-6 h-6 items-center justify-center rounded-full bg-brand-gold/20 text-brand-gold text-xs font-bold">
+                      <span className="inline-flex w-6 h-6 items-center justify-center rounded-full bg-brand-orange/20 text-brand-orange text-xs font-bold">
                         {r.dia}
                       </span>
                     </td>
@@ -565,7 +565,7 @@ export default function EsteiraPage() {
 
         {/* Indicadores Globais */}
         <div className="card">
-          <h3 className="text-brand-gold font-bold mb-4">Indicadores Globais da Agência</h3>
+          <h3 className="text-brand-orange font-bold mb-4">Indicadores Globais da Agência</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             {[
               { kpi: 'Churn Rate', formula: '(Clientes perdidos / Total) × 100', meta: '< 5% ao mês' },
@@ -577,8 +577,8 @@ export default function EsteiraPage() {
               { kpi: 'Taxa de Aprovação de Conteúdo', formula: 'Aprovados de primeira / Total enviados', meta: '> 80%' },
               { kpi: 'ROI de Tráfego Pago', formula: '(Receita gerada − Investimento) / Investimento', meta: '≥ 3× (300%)' },
             ].map(item => (
-              <div key={item.kpi} className="p-3 bg-brand-black-soft rounded-lg">
-                <p className="text-brand-gold font-medium text-xs mb-1">{item.kpi}</p>
+              <div key={item.kpi} className="p-3 bg-brand-navy-soft rounded-lg">
+                <p className="text-brand-orange font-medium text-xs mb-1">{item.kpi}</p>
                 <p className="text-white/50 text-xs mb-1">Fórmula: {item.formula}</p>
                 <p className="text-white/80 text-xs">Meta: <span className="text-status-ok">{item.meta}</span></p>
               </div>
@@ -603,13 +603,13 @@ function PhaseHeader({
 }) {
   return (
     <div className="flex items-start gap-4 pb-4 border-b border-white/10">
-      <div className="w-12 h-12 bg-brand-gold rounded-xl flex items-center justify-center flex-shrink-0">
+      <div className="w-12 h-12 bg-brand-orange rounded-xl flex items-center justify-center flex-shrink-0">
         <span className="text-2xl">{icon}</span>
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">
           <h3 className="text-white font-bold text-base">Fase {num.toString().padStart(2, '0')}: {nome}</h3>
-          <span className="text-xs px-2.5 py-0.5 rounded-full bg-brand-gold-muted text-brand-gold border border-brand-gold/20">
+          <span className="text-xs px-2.5 py-0.5 rounded-full bg-brand-orange-muted text-brand-orange border border-brand-orange/20">
             {prazo}
           </span>
         </div>

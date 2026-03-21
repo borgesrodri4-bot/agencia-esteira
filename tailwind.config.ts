@@ -10,16 +10,17 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          black:       '#1A1A1A',
-          'black-soft': '#242424',
-          'black-card': '#2E2E2E',
-          'black-hover':'#383838',
-          gold:        '#C9A84C',
-          'gold-light': '#DFC278',
-          'gold-dark':  '#A8862E',
-          'gold-muted': 'rgba(201,168,76,0.15)',
-          white:       '#FFFFFF',
-          gray:        '#F8F8F8',
+          navy:          '#0f2f48',
+          'navy-soft':   '#1a3d54',
+          'navy-card':   '#235475',
+          'navy-hover':  '#2a4a66',
+          orange:        '#f28933',
+          'orange-light':'#f5a55c',
+          'orange-dark': '#c96e1a',
+          'orange-muted':'rgba(242,137,51,0.15)',
+          terra:         '#c79982',
+          white:         '#FFFFFF',
+          gray:          '#F8F8F8',
         },
         status: {
           ok:      '#22C55E',
@@ -29,15 +30,16 @@ const config: Config = {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans:    ['Montserrat', 'system-ui', 'sans-serif'],
+        display: ['Cinzel', 'serif'],
       },
       backgroundImage: {
-        'gold-gradient': 'linear-gradient(135deg, #C9A84C 0%, #DFC278 50%, #A8862E 100%)',
-        'dark-gradient': 'linear-gradient(180deg, #1A1A1A 0%, #242424 100%)',
+        'orange-gradient': 'linear-gradient(135deg, #f28933 0%, #f5a55c 50%, #c96e1a 100%)',
+        'navy-gradient':   'linear-gradient(180deg, #0f2f48 0%, #1a3d54 100%)',
       },
       boxShadow: {
-        'gold': '0 0 0 1px rgba(201,168,76,0.3)',
-        'gold-lg': '0 4px 24px rgba(201,168,76,0.15)',
+        'orange':    '0 0 0 1px rgba(242,137,51,0.3)',
+        'orange-lg': '0 4px 24px rgba(242,137,51,0.15)',
       }
     },
   },

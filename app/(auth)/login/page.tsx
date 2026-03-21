@@ -30,23 +30,27 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-brand-black flex items-center justify-center p-4">
+    <div className="min-h-screen bg-brand-navy flex items-center justify-center p-4">
       {/* Fundo decorativo */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-gold/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-brand-orange/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-brand-terra/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative w-full max-w-md">
         {/* Logo / Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-brand-gold rounded-lg flex items-center justify-center">
-              <span className="text-brand-black font-bold text-lg">A</span>
+          <div className="inline-flex flex-col items-center gap-3 mb-4">
+            <div className="w-14 h-14 bg-orange-gradient rounded-2xl flex items-center justify-center shadow-orange-lg">
+              <span className="font-display text-white font-bold text-2xl">K</span>
             </div>
-            <span className="text-white font-semibold text-xl">Agência</span>
+            <div>
+              <p className="font-display text-white font-semibold text-2xl tracking-widest">KOLHEY</p>
+              <p className="text-white/50 text-xs italic mt-0.5">Resultados que se cultivam</p>
+            </div>
           </div>
-          <h1 className="text-2xl font-bold text-white mb-1">Bem-vindo de volta</h1>
-          <p className="text-white/50 text-sm">Entre com sua conta para acessar a esteira</p>
+          <h1 className="text-xl font-semibold text-white mb-1">Bem-vindo de volta</h1>
+          <p className="text-white/50 text-sm">Entre com sua conta para acessar o painel</p>
         </div>
 
         {/* Card de login */}
@@ -95,7 +99,7 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-white/30 text-xs mt-6">
-          Sem acesso? Fale com o administrador da agência.
+          Sem acesso? Fale com o administrador da Kolhey.
         </p>
       </div>
     </div>

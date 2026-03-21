@@ -9,7 +9,8 @@ interface PhaseProgressBarProps {
 
 export default function PhaseProgressBar({ currentPhase, clientId, compact = false }: PhaseProgressBarProps) {
   return (
-    <div className={`flex items-center gap-1 ${compact ? 'flex-wrap' : ''}`}>
+    <div className="overflow-x-auto -mx-1 px-1">
+    <div className={`flex items-center gap-1 ${compact ? 'flex-wrap' : 'min-w-max'}`}>
       {PHASES.map((phase, idx) => {
         const isDone = phase.num < currentPhase
         const isActive = phase.num === currentPhase
@@ -44,6 +45,7 @@ export default function PhaseProgressBar({ currentPhase, clientId, compact = fal
           </div>
         )
       })}
+    </div>
     </div>
   )
 }
