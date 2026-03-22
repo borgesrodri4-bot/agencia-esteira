@@ -2,14 +2,14 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
-import JaguarSVG from '@/components/icons/JaguarSVG'
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
+  const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [loading, setLoading]   = useState(false)
+  const [error, setError]       = useState('')
   const router = useRouter()
 
   async function handleLogin(e: React.FormEvent) {
@@ -32,9 +32,10 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-brand-navy flex">
+
       {/* ── Painel esquerdo — formulário ── */}
       <div className="relative flex flex-col justify-center w-full max-w-md px-10 py-12 z-10">
-        {/* Glow sutil */}
+        {/* Glows */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute -top-32 -left-32 w-64 h-64 bg-brand-orange/8 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-brand-terra/5 rounded-full blur-3xl" />
@@ -42,20 +43,24 @@ export default function LoginPage() {
 
         <div className="relative">
           {/* Logo */}
-          <div className="mb-10">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-11 h-11 bg-orange-gradient rounded-xl flex items-center justify-center shadow-orange-lg flex-shrink-0">
-                <span className="font-display text-white font-bold text-xl leading-none">K</span>
-              </div>
-              <div>
-                {/* KOLHEY com "O" laranja — fiel ao manual */}
-                <p className="font-display text-white font-bold text-2xl tracking-widest leading-none">
-                  K<span className="text-brand-orange">O</span>LHEY
-                </p>
-                <p className="text-white/35 text-[11px] italic font-light tracking-wide mt-0.5">
-                  Resultados que se cultivam
-                </p>
-              </div>
+          <div className="mb-10 flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl overflow-hidden shadow-orange-lg flex-shrink-0 border border-brand-orange/20">
+              <Image
+                src="/onca-kolhey.jpg"
+                alt="Logo Kolhey"
+                width={48}
+                height={48}
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
+            <div>
+              <p className="font-display text-white font-bold text-2xl tracking-widest leading-none">
+                K<span className="text-brand-orange">O</span>LHEY
+              </p>
+              <p className="text-white/35 text-[11px] italic font-light tracking-wide mt-0.5">
+                Resultados que se cultivam
+              </p>
             </div>
           </div>
 
@@ -74,29 +79,20 @@ export default function LoginPage() {
             <div>
               <label htmlFor="email" className="label">E-mail</label>
               <input
-                id="email"
-                type="email"
-                className="input"
-                placeholder="seu@email.com"
-                value={email}
+                id="email" type="email" className="input"
+                placeholder="seu@email.com" value={email}
                 onChange={e => setEmail(e.target.value)}
-                required
-                autoComplete="email"
-                autoFocus
+                required autoComplete="email" autoFocus
               />
             </div>
 
             <div>
               <label htmlFor="password" className="label">Senha</label>
               <input
-                id="password"
-                type="password"
-                className="input"
-                placeholder="••••••••"
-                value={password}
+                id="password" type="password" className="input"
+                placeholder="••••••••" value={password}
                 onChange={e => setPassword(e.target.value)}
-                required
-                autoComplete="current-password"
+                required autoComplete="current-password"
               />
             </div>
 
@@ -110,8 +106,7 @@ export default function LoginPage() {
             )}
 
             <button
-              type="submit"
-              disabled={loading}
+              type="submit" disabled={loading}
               className="btn-primary w-full justify-center py-3 mt-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
               {loading ? (
@@ -132,18 +127,27 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* ── Painel direito — visual da marca ── */}
-      <div className="hidden lg:flex flex-1 relative bg-brand-navy-soft items-center justify-center overflow-hidden border-l border-white/5">
-        {/* Círculo de fundo — igual ao manual de marca */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 w-[600px] h-[600px] rounded-full bg-brand-navy/60 border border-white/5" />
+      {/* ── Painel direito — onça Kolhey ── */}
+      <div className="hidden lg:flex flex-1 relative items-center justify-center overflow-hidden border-l border-white/5 bg-brand-navy-soft">
+        {/* Glow laranja de fundo */}
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/5 via-transparent to-brand-navy pointer-events-none" />
 
-        {/* Onça-pintada — mascote da Kolhey */}
-        <div className="relative z-10 flex flex-col items-center justify-center gap-8 px-16">
-          <JaguarSVG className="w-80 h-auto" opacity={0.12} />
+        {/* Logo onça — centralizada e grande */}
+        <div className="relative z-10 flex flex-col items-center gap-8">
+          <div className="w-80 h-80 rounded-full overflow-hidden shadow-orange-lg border-2 border-brand-orange/20 ring-4 ring-brand-orange/8">
+            <Image
+              src="/onca-kolhey.jpg"
+              alt="Onça Kolhey"
+              width={320}
+              height={320}
+              className="w-full h-full object-cover"
+              priority
+            />
+          </div>
 
-          {/* Wordmark Kolhey — fiel ao manual */}
+          {/* Wordmark abaixo da logo */}
           <div className="text-center">
-            <p className="font-display text-white/80 font-bold text-5xl tracking-[0.15em] leading-none">
+            <p className="font-display text-white/85 font-bold text-5xl tracking-[0.15em] leading-none">
               K<span className="text-brand-orange">O</span>LHEY
             </p>
             <p className="text-white/30 text-sm italic font-light tracking-widest mt-3">
@@ -157,6 +161,7 @@ export default function LoginPage() {
           By Kolhey
         </p>
       </div>
+
     </div>
   )
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState } from 'react'
@@ -67,8 +68,8 @@ export default function Sidebar() {
         {/* Logo */}
         <div className="p-5 border-b border-white/5">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 bg-orange-gradient rounded-xl flex items-center justify-center flex-shrink-0 shadow-orange">
-              <span className="font-display text-white font-bold text-base leading-none">K</span>
+            <div className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0 shadow-orange border border-brand-orange/20">
+              <Image src="/onca-kolhey.jpg" alt="Kolhey" width={36} height={36} className="w-full h-full object-cover" />
             </div>
             <div>
               <p className="font-display text-white font-semibold text-sm leading-none tracking-widest">
