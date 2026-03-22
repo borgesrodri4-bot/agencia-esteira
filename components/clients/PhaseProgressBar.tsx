@@ -67,7 +67,7 @@ export default function PhaseProgressBar({ currentPhase, clientId, compact = fal
           )
 
           return (
-            <div key={phase.num} className="flex flex-col items-center gap-2 min-w-[52px]">
+            <div key={phase.num} className="flex flex-col items-center gap-2 min-w-[44px]">
               {isClickable ? (
                 <Link
                   href={`/clientes/${clientId}/${phase.slug}`}

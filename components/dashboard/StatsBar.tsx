@@ -136,7 +136,7 @@ export default function StatsBar({ clients }: StatsBarProps) {
             )}
           </div>
 
-          <p className={`text-3xl font-bold leading-none mb-1 tabular-nums ${s.valueColor}`}>
+          <p className={`text-2xl sm:text-3xl font-bold leading-none mb-1 tabular-nums ${s.valueColor}`}>
             <NumberFlow value={s.value} />
           </p>
           <p className="text-white/40 text-xs font-medium">{s.label}</p>

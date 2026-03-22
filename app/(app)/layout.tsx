@@ -11,12 +11,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Área de trabalho com onça watermark */}
       <div className="flex-1 flex flex-col overflow-hidden pb-16 md:pb-0 relative">
         {/* Onça watermark no fundo */}
-        <div className="absolute bottom-0 right-0 w-[520px] h-[520px] pointer-events-none select-none z-0 opacity-[0.04]">
+        <div className="absolute bottom-0 right-0 w-[280px] h-[280px] sm:w-[520px] sm:h-[520px] pointer-events-none select-none z-0 opacity-[0.04]">
           <Image
             src="/onca-transparent.png"
             alt=""
-            width={520}
-            height={520}
+            width={280}
+            height={280}
             className="w-full h-full object-contain"
             aria-hidden="true"
           />

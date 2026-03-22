@@ -31,7 +31,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex" style={{ backgroundColor: '#0f2f48' }}>
 
       {/* ── PAINEL ESQUERDO — formulário ── */}
-      <div className="relative flex flex-col justify-between w-full max-w-[480px] px-12 py-10 z-10 flex-shrink-0">
+      <div className="relative flex flex-col justify-between w-full sm:max-w-[480px] px-6 sm:px-12 py-8 sm:py-10 z-10 flex-shrink-0">
 
         {/* Topo: wordmark */}
         <div>

@@ -78,7 +78,7 @@ export default function ChecklistItem({ item, response, onToggle, onNoteUpdate }
           {showNote ? (
             <div className="mt-2 space-y-1.5">
               <textarea
-                className="input text-xs min-h-16 resize-y w-full"
+                className="input text-sm min-h-16 resize-y w-full"
                 placeholder="Adicionar observação..."
                 value={noteValue}
                 onChange={e => setNoteValue(e.target.value)}
