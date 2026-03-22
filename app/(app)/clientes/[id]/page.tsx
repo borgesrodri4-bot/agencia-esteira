@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Header from '@/components/layout/Header'
 import PhaseProgressBar from '@/components/clients/PhaseProgressBar'
+import PhaseIcon from '@/components/icons/PhaseIcon'
 import { useClient, useClients } from '@/hooks/useClients'
 import { PHASES } from '@/lib/phases'
 
@@ -108,7 +109,9 @@ export default function ClientePage({ params }: Props) {
             <div>
               <p className="text-white/50 text-xs uppercase tracking-wide mb-1">Fase atual</p>
               <div className="flex items-center gap-2">
-                <span className="text-2xl">{currentPhaseData?.icon}</span>
+                <div className="w-9 h-9 bg-brand-orange-muted border border-brand-orange/20 rounded-lg flex items-center justify-center text-brand-orange flex-shrink-0">
+                  <PhaseIcon num={client.current_phase} className="w-4 h-4" />
+                </div>
                 <div>
                   <p className="text-brand-orange font-semibold">
                     Fase {client.current_phase}: {currentPhaseData?.label}
@@ -182,7 +185,9 @@ export default function ClientePage({ params }: Props) {
                       : 'border-white/5 opacity-30 cursor-not-allowed pointer-events-none'
                   }`}
                 >
-                  <span className="text-lg">{phase.icon}</span>
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${phase.num === client.current_phase ? 'bg-brand-orange-muted text-brand-orange' : 'bg-white/5 text-white/30'}`}>
+                    <PhaseIcon num={phase.num} className="w-3.5 h-3.5" />
+                  </div>
                   <div className="min-w-0">
                     <p className={`text-sm font-medium ${phase.num === client.current_phase ? 'text-brand-orange' : 'text-white'}`}>
                       Fase {phase.num}: {phase.label}

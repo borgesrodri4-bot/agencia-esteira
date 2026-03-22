@@ -5,9 +5,34 @@ import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
 const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: '◈' },
-  { href: '/clientes', label: 'Clientes', icon: '◉' },
-  { href: '/esteira', label: 'A Esteira', icon: '◎' },
+  {
+    href: '/dashboard',
+    label: 'Dashboard',
+    icon: (
+      <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 flex-shrink-0">
+        <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+        <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+      </svg>
+    ),
+  },
+  {
+    href: '/clientes',
+    label: 'Clientes',
+    icon: (
+      <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 flex-shrink-0">
+        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+      </svg>
+    ),
+  },
+  {
+    href: '/esteira',
+    label: 'A Esteira',
+    icon: (
+      <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 flex-shrink-0">
+        <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+      </svg>
+    ),
+  },
 ]
 
 export default function Sidebar() {
@@ -28,31 +53,31 @@ export default function Sidebar() {
         {/* Logo */}
         <div className="p-5 border-b border-white/5">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 bg-orange-gradient rounded-lg flex items-center justify-center flex-shrink-0">
-              <span className="font-display text-white font-bold text-base">K</span>
+            <div className="w-9 h-9 bg-orange-gradient rounded-lg flex items-center justify-center flex-shrink-0 shadow-orange">
+              <span className="font-display text-white font-bold text-base leading-none">K</span>
             </div>
             <div>
-              <p className="font-display text-white font-semibold text-sm leading-none tracking-wide">Kolhey</p>
-              <p className="text-white/40 text-[10px] mt-0.5 italic">Resultados que se cultivam</p>
+              <p className="font-display text-white font-semibold text-sm leading-none tracking-widest">KOLHEY</p>
+              <p className="text-white/35 text-[10px] mt-0.5 italic font-light">Resultados que se cultivam</p>
             </div>
           </div>
         </div>
 
         {/* Navegação */}
-        <nav className="flex-1 p-3 space-y-1">
+        <nav className="flex-1 p-3 space-y-0.5" role="navigation" aria-label="Menu principal">
           {navItems.map(item => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors duration-200 ${
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/50 ${
                   isActive
-                    ? 'bg-brand-orange-muted text-brand-orange border border-brand-orange/20'
-                    : 'text-white/50 hover:text-white hover:bg-brand-navy-hover'
+                    ? 'bg-brand-orange-muted text-brand-orange border border-brand-orange/15 font-medium'
+                    : 'text-white/45 hover:text-white hover:bg-brand-navy-hover'
                 }`}
               >
-                <span className="text-base">{item.icon}</span>
+                {item.icon}
                 {item.label}
               </Link>
             )
@@ -62,27 +87,30 @@ export default function Sidebar() {
         <div className="p-3 border-t border-white/5">
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/40 hover:text-status-danger hover:bg-status-danger/10 transition-colors duration-200 w-full text-left"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/35 hover:text-status-danger hover:bg-status-danger/8 transition-all duration-200 w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-status-danger/50 cursor-pointer"
+            aria-label="Sair da conta"
           >
-            <span className="text-base">⊗</span>
+            <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 flex-shrink-0">
+              <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" />
+            </svg>
             Sair
           </button>
         </div>
       </aside>
 
       {/* ── MOBILE: barra de navegação inferior ── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand-navy-soft border-t border-white/10 flex items-center">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand-navy-soft border-t border-white/10 flex items-center" role="navigation" aria-label="Menu mobile">
         {navItems.map(item => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex-1 flex flex-col items-center justify-center py-2.5 gap-0.5 transition-colors duration-200 ${
-                isActive ? 'text-brand-orange' : 'text-white/40'
+              className={`flex-1 flex flex-col items-center justify-center py-3 gap-1 transition-colors duration-200 min-h-[56px] focus-visible:outline-none ${
+                isActive ? 'text-brand-orange' : 'text-white/35'
               }`}
             >
-              <span className="text-xl leading-none">{item.icon}</span>
+              {item.icon}
               <span className="text-[10px] font-medium">{item.label}</span>
               {isActive && (
                 <span className="absolute bottom-0 w-8 h-0.5 bg-brand-orange rounded-t-full" />
@@ -92,9 +120,12 @@ export default function Sidebar() {
         })}
         <button
           onClick={handleLogout}
-          className="flex-1 flex flex-col items-center justify-center py-2.5 gap-0.5 text-white/30 active:text-status-danger transition-colors duration-200"
+          className="flex-1 flex flex-col items-center justify-center py-3 gap-1 text-white/25 active:text-status-danger transition-colors duration-200 min-h-[56px] cursor-pointer"
+          aria-label="Sair"
         >
-          <span className="text-xl leading-none">⊗</span>
+          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+            <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" />
+          </svg>
           <span className="text-[10px] font-medium">Sair</span>
         </button>
       </nav>

@@ -53,7 +53,7 @@ export default function ChecklistPage({ params }: Props) {
   return (
     <div className="flex-1 flex flex-col overflow-y-auto">
       <Header
-        title={`${phaseData.icon} Fase ${phaseData.num}: ${phaseData.label}`}
+        title={`Fase ${phaseData.num}: ${phaseData.label}`}
         subtitle={client?.name ?? ''}
       />
 
@@ -142,7 +142,7 @@ export default function ChecklistPage({ params }: Props) {
             <ul className="space-y-1.5">
               {phaseData.entregas.map((e, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-white/70">
-                  <span className="text-brand-orange mt-0.5 flex-shrink-0">◆</span> {e}
+                  <svg viewBox="0 0 8 8" fill="currentColor" className="w-2 h-2 text-brand-orange mt-1 flex-shrink-0"><circle cx="4" cy="4" r="3"/></svg> {e}
                 </li>
               ))}
             </ul>

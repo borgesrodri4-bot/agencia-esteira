@@ -174,11 +174,11 @@ export default function EsteiraPage() {
                 href={`#fase-${p.num}`}
                 className="text-xs px-3 py-1 rounded-full border border-brand-orange/30 text-brand-orange hover:bg-brand-orange-muted transition-colors"
               >
-                {p.icon} F{p.num}: {p.label}
+                F{p.num}: {p.label}
               </a>
             ))}
             <a href="#primeiros-7-dias" className="text-xs px-3 py-1 rounded-full border border-white/20 text-white/60 hover:border-brand-orange/30 hover:text-brand-orange transition-colors">
-              📅 Primeiros 7 Dias
+              Primeiros 7 Dias
             </a>
           </div>
         </div>
@@ -236,7 +236,7 @@ export default function EsteiraPage() {
 
         {/* ── FASE 01: CAPTAÇÃO ── */}
         <div id="fase-1" className="card scroll-mt-6 space-y-5">
-          <PhaseHeader num={1} nome="Captação" resp="SDR" prazo="D+0 a D+7" entregavel="Lead Qualificado — ICP preenchido" icon="🎯" />
+          <PhaseHeader num={1} nome="Captação" resp="SDR" prazo="D+0 a D+7" entregavel="Lead Qualificado — ICP preenchido" />
 
           <div>
             <p className="text-white/40 text-xs uppercase tracking-wide mb-1">Objetivo</p>
@@ -300,7 +300,7 @@ export default function EsteiraPage() {
 
         {/* ── FASE 02: DIAGNÓSTICO ── */}
         <div id="fase-2" className="card scroll-mt-6 space-y-5">
-          <PhaseHeader num={2} nome="Diagnóstico" resp="Account" prazo="D+1 a D+3" entregavel="Proposta aprovada + contrato enviado" icon="🔍" />
+          <PhaseHeader num={2} nome="Diagnóstico" resp="Account" prazo="D+1 a D+3" entregavel="Proposta aprovada + contrato enviado" />
 
           <div>
             <p className="text-white/40 text-xs uppercase tracking-wide mb-1">Objetivo</p>
@@ -363,7 +363,7 @@ export default function EsteiraPage() {
 
         {/* ── FASE 03: ONBOARDING ── */}
         <div id="fase-3" className="card scroll-mt-6 space-y-5">
-          <PhaseHeader num={3} nome="Onboarding" resp="CS" prazo="D+1 a D+2" entregavel="Cliente ativado — briefing aprovado" icon="🚀" />
+          <PhaseHeader num={3} nome="Onboarding" resp="CS" prazo="D+1 a D+2" entregavel="Cliente ativado — briefing aprovado" />
 
           <div>
             <p className="text-white/40 text-xs uppercase tracking-wide mb-1">Objetivo</p>
@@ -375,7 +375,7 @@ export default function EsteiraPage() {
             <div className="space-y-2">
               {CHECKLIST_ONBOARDING.map((item, i) => (
                 <div key={i} className="flex gap-3 p-2.5 bg-brand-navy-soft rounded-lg items-start">
-                  <span className="text-brand-orange mt-0.5 flex-shrink-0">☐</span>
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5 text-brand-orange mt-0.5 flex-shrink-0"><rect x="2" y="2" width="12" height="12" rx="2"/></svg>
                   <span className="text-white/70 text-sm">{item}</span>
                 </div>
               ))}
@@ -387,7 +387,7 @@ export default function EsteiraPage() {
 
         {/* ── FASE 04: PLANEJAMENTO ── */}
         <div id="fase-4" className="card scroll-mt-6 space-y-5">
-          <PhaseHeader num={4} nome="Planejamento" resp="Estrategista" prazo="D+3 a D+7" entregavel="Plano 90 dias + calendário aprovados" icon="📋" />
+          <PhaseHeader num={4} nome="Planejamento" resp="Estrategista" prazo="D+3 a D+7" entregavel="Plano 90 dias + calendário aprovados" />
 
           <div>
             <p className="text-white/40 text-xs uppercase tracking-wide mb-1">Objetivo</p>
@@ -411,7 +411,7 @@ export default function EsteiraPage() {
 
         {/* ── FASE 05: PRODUÇÃO ── */}
         <div id="fase-5" className="card scroll-mt-6 space-y-5">
-          <PhaseHeader num={5} nome="Produção" resp="Criativo" prazo="Recorrente" entregavel="Conteúdo aprovado e publicado" icon="⚙️" />
+          <PhaseHeader num={5} nome="Produção" resp="Criativo" prazo="Recorrente" entregavel="Conteúdo aprovado e publicado" />
 
           <div>
             <p className="text-white/40 text-xs uppercase tracking-wide mb-1">Objetivo</p>
@@ -440,7 +440,7 @@ export default function EsteiraPage() {
             <div className="space-y-1.5">
               {REGRAS_PRODUCAO.map((r, i) => (
                 <div key={i} className="flex gap-2 p-2.5 bg-brand-navy-soft rounded-lg">
-                  <span className="text-brand-orange flex-shrink-0">☐</span>
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-3.5 h-3.5 text-brand-orange flex-shrink-0"><rect x="2" y="2" width="12" height="12" rx="2"/></svg>
                   <span className="text-white/70 text-sm">{r}</span>
                 </div>
               ))}
@@ -452,7 +452,7 @@ export default function EsteiraPage() {
 
         {/* ── FASE 06: RELATÓRIO ── */}
         <div id="fase-6" className="card scroll-mt-6 space-y-5">
-          <PhaseHeader num={6} nome="Relatório" resp="Analista" prazo="Dia 5/mês" entregavel="Dados analisados + plano do próximo mês" icon="📊" />
+          <PhaseHeader num={6} nome="Relatório" resp="Analista" prazo="Dia 5/mês" entregavel="Dados analisados + plano do próximo mês" />
 
           <div>
             <p className="text-white/40 text-xs uppercase tracking-wide mb-1">Objetivo</p>
@@ -482,7 +482,7 @@ export default function EsteiraPage() {
 
         {/* ── FASE 07: RETENÇÃO ── */}
         <div id="fase-7" className="card scroll-mt-6 space-y-5">
-          <PhaseHeader num={7} nome="Retenção" resp="CS + Account" prazo="Contínuo" entregavel="Cliente renovado e indicando" icon="🤝" />
+          <PhaseHeader num={7} nome="Retenção" resp="CS + Account" prazo="Contínuo" entregavel="Cliente renovado e indicando" />
 
           <div>
             <p className="text-white/40 text-xs uppercase tracking-wide mb-1">Objetivo</p>
@@ -597,14 +597,14 @@ export default function EsteiraPage() {
 // ─── Sub-componentes ─────────────────────────────────────────────────────────
 
 function PhaseHeader({
-  num, nome, resp, prazo, entregavel, icon,
+  num, nome, resp, prazo, entregavel,
 }: {
-  num: number; nome: string; resp: string; prazo: string; entregavel: string; icon: string
+  num: number; nome: string; resp: string; prazo: string; entregavel: string
 }) {
   return (
     <div className="flex items-start gap-4 pb-4 border-b border-white/10">
-      <div className="w-12 h-12 bg-brand-orange rounded-xl flex items-center justify-center flex-shrink-0">
-        <span className="text-2xl">{icon}</span>
+      <div className="w-12 h-12 bg-brand-orange-muted border border-brand-orange/20 rounded-xl flex items-center justify-center flex-shrink-0">
+        <span className="font-display text-brand-orange font-bold text-lg leading-none">{String(num).padStart(2, '0')}</span>
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 flex-wrap">

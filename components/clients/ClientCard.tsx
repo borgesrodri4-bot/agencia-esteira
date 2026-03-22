@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { PHASES } from '@/lib/phases'
 import type { Client } from '@/lib/types'
+import PhaseIcon from '@/components/icons/PhaseIcon'
 
 interface ClientCardProps {
   client: Client
@@ -71,8 +72,8 @@ export default function ClientCard({ client }: ClientCardProps) {
 
       {/* Fase atual */}
       <div className="flex items-center gap-2 mb-4">
-        <div className="w-7 h-7 bg-brand-orange-muted border border-brand-orange/20 rounded-lg flex items-center justify-center flex-shrink-0">
-          <span className="text-sm leading-none">{phase?.icon}</span>
+        <div className="w-7 h-7 bg-brand-orange-muted border border-brand-orange/20 rounded-lg flex items-center justify-center flex-shrink-0 text-brand-orange">
+          <PhaseIcon num={client.current_phase} className="w-3.5 h-3.5" />
         </div>
         <div className="min-w-0">
           <p className="text-white text-xs font-medium leading-none">
