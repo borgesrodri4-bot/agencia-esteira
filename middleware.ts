@@ -30,10 +30,9 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   const isAuthPage = request.nextUrl.pathname.startsWith('/login')
-  const isPublicPage = request.nextUrl.pathname === '/'
 
-  // Redireciona para login se não autenticado e não está na página de login ou landing
-  if (!user && !isAuthPage && !isPublicPage) {
+  // Redireciona para login se não autenticado e não está na página de login
+  if (!user && !isAuthPage) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)

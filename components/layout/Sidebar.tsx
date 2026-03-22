@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { useEffect, useState } from 'react'
 
 const navItems = [
   {
@@ -36,8 +37,19 @@ const navItems = [
 ]
 
 export default function Sidebar() {
-  const pathname = usePathname()
-  const router = useRouter()
+  const pathname  = usePathname()
+  const router    = useRouter()
+  const [name, setName]   = useState('')
+  const [role, setRole]   = useState('')
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) return
+      const { data } = await supabase.from('profiles').select('name, role').eq('id', user.id).single()
+      if (data) { setName(data.name); setRole(data.role) }
+    })
+  }, [])
 
   async function handleLogout() {
     const supabase = createClient()
@@ -46,6 +58,8 @@ export default function Sidebar() {
     router.refresh()
   }
 
+  const initials = name ? name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase() : '?'
+
   return (
     <>
       {/* ── DESKTOP: sidebar lateral ── */}
@@ -53,12 +67,14 @@ export default function Sidebar() {
         {/* Logo */}
         <div className="p-5 border-b border-white/5">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 bg-orange-gradient rounded-lg flex items-center justify-center flex-shrink-0 shadow-orange">
+            <div className="w-9 h-9 bg-orange-gradient rounded-xl flex items-center justify-center flex-shrink-0 shadow-orange">
               <span className="font-display text-white font-bold text-base leading-none">K</span>
             </div>
             <div>
-              <p className="font-display text-white font-semibold text-sm leading-none tracking-widest">KOLHEY</p>
-              <p className="text-white/35 text-[10px] mt-0.5 italic font-light">Resultados que se cultivam</p>
+              <p className="font-display text-white font-semibold text-sm leading-none tracking-widest">
+                K<span className="text-brand-orange">O</span>LHEY
+              </p>
+              <p className="text-white/30 text-[10px] mt-0.5 italic font-light">Resultados que se cultivam</p>
             </div>
           </div>
         </div>
@@ -71,12 +87,17 @@ export default function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/50 ${
+                className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200
+                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/50 ${
                   isActive
-                    ? 'bg-brand-orange-muted text-brand-orange border border-brand-orange/15 font-medium'
-                    : 'text-white/45 hover:text-white hover:bg-brand-navy-hover'
+                    ? 'bg-brand-orange-muted text-brand-orange font-medium'
+                    : 'text-white/45 hover:text-white hover:bg-white/5'
                 }`}
               >
+                {/* Indicador lateral */}
+                {isActive && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-brand-orange rounded-r-full" />
+                )}
                 {item.icon}
                 {item.label}
               </Link>
@@ -84,10 +105,24 @@ export default function Sidebar() {
           })}
         </nav>
 
-        <div className="p-3 border-t border-white/5">
+        {/* Usuário + Sair */}
+        <div className="p-3 border-t border-white/5 space-y-1">
+          {name && (
+            <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white/3 mb-1">
+              <div className="w-7 h-7 bg-orange-gradient rounded-full flex items-center justify-center flex-shrink-0">
+                <span className="text-white font-bold text-[11px]">{initials}</span>
+              </div>
+              <div className="min-w-0">
+                <p className="text-white text-xs font-medium truncate leading-none">{name}</p>
+                <p className="text-white/30 text-[10px] mt-0.5">{role === 'admin' ? 'Administrador' : 'Colaborador'}</p>
+              </div>
+            </div>
+          )}
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/35 hover:text-status-danger hover:bg-status-danger/8 transition-all duration-200 w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-status-danger/50 cursor-pointer"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-white/30
+              hover:text-status-danger hover:bg-status-danger/8 transition-all duration-200 w-full text-left
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-status-danger/50 cursor-pointer"
             aria-label="Sair da conta"
           >
             <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 flex-shrink-0">
@@ -98,23 +133,20 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      {/* ── MOBILE: barra de navegação inferior ── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand-navy-soft border-t border-white/10 flex items-center" role="navigation" aria-label="Menu mobile">
+      {/* ── MOBILE: barra inferior ── */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand-navy-soft/95 backdrop-blur border-t border-white/8 flex items-center" role="navigation" aria-label="Menu mobile">
         {navItems.map(item => {
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex-1 flex flex-col items-center justify-center py-3 gap-1 transition-colors duration-200 min-h-[56px] focus-visible:outline-none ${
-                isActive ? 'text-brand-orange' : 'text-white/35'
-              }`}
+              className={`flex-1 flex flex-col items-center justify-center py-3 gap-1 transition-colors duration-200 min-h-[56px]
+                focus-visible:outline-none ${isActive ? 'text-brand-orange' : 'text-white/35'}`}
             >
               {item.icon}
               <span className="text-[10px] font-medium">{item.label}</span>
-              {isActive && (
-                <span className="absolute bottom-0 w-8 h-0.5 bg-brand-orange rounded-t-full" />
-              )}
+              {isActive && <span className="absolute bottom-0 w-6 h-0.5 bg-brand-orange rounded-t-full" />}
             </Link>
           )
         })}
