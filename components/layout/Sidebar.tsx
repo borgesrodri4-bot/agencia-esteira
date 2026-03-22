@@ -68,8 +68,8 @@ export default function Sidebar() {
         {/* Logo */}
         <div className="p-5 border-b border-white/5">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0 shadow-orange border border-brand-orange/20">
-              <Image src="/onca-kolhey.jpg" alt="Kolhey" width={36} height={36} className="w-full h-full object-cover" />
+            <div className="w-9 h-9 rounded-xl bg-brand-navy-card flex-shrink-0 shadow-orange border border-brand-orange/20 flex items-center justify-center overflow-hidden">
+              <Image src="/onca-transparent.png" alt="Kolhey" width={36} height={36} className="w-full h-full object-contain" />
             </div>
             <div>
               <p className="font-display text-white font-semibold text-sm leading-none tracking-widest">

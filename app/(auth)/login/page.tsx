@@ -44,13 +44,13 @@ export default function LoginPage() {
         <div className="relative">
           {/* Logo */}
           <div className="mb-10 flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl overflow-hidden shadow-orange-lg flex-shrink-0 border border-brand-orange/20">
+            <div className="w-12 h-12 rounded-xl bg-brand-navy-card flex items-center justify-center shadow-orange-lg flex-shrink-0 border border-brand-orange/20 overflow-hidden">
               <Image
-                src="/onca-kolhey.jpg"
+                src="/onca-transparent.png"
                 alt="Logo Kolhey"
                 width={48}
                 height={48}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain p-0.5"
                 priority
               />
             </div>
@@ -134,13 +134,15 @@ export default function LoginPage() {
 
         {/* Logo onça — centralizada e grande */}
         <div className="relative z-10 flex flex-col items-center gap-8">
-          <div className="w-80 h-80 rounded-full overflow-hidden shadow-orange-lg border-2 border-brand-orange/20 ring-4 ring-brand-orange/8">
+          <div className="w-80 h-80 flex items-center justify-center relative">
+            {/* Glow circular atrás da onça */}
+            <div className="absolute inset-0 rounded-full bg-brand-orange/8 blur-2xl" />
             <Image
-              src="/onca-kolhey.jpg"
+              src="/onca-transparent.png"
               alt="Onça Kolhey"
               width={320}
               height={320}
-              className="w-full h-full object-cover"
+              className="relative z-10 w-full h-full object-contain drop-shadow-[0_0_40px_rgba(242,137,51,0.3)]"
               priority
             />
           </div>
