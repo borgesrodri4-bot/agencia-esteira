@@ -1,5 +1,7 @@
 import Image from 'next/image'
 import Sidebar from '@/components/layout/Sidebar'
+import PageTransition from '@/components/layout/PageTransition'
+import { Toaster } from 'sonner'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -20,11 +22,25 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           />
         </div>
 
-        {/* Conteúdo acima do watermark */}
-        <div className="relative z-10 flex-1 flex flex-col overflow-hidden">
+        {/* Conteúdo acima do watermark com page transitions */}
+        <PageTransition>
           {children}
-        </div>
+        </PageTransition>
       </div>
+
+      {/* Toast notifications */}
+      <Toaster
+        theme="dark"
+        position="bottom-right"
+        richColors
+        toastOptions={{
+          style: {
+            background: '#235475',
+            border: '1px solid rgba(255,255,255,0.1)',
+            color: '#fff',
+          },
+        }}
+      />
     </div>
   )
 }

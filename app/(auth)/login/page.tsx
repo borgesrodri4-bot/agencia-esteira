@@ -16,59 +16,49 @@ export default function LoginPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
-
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
-
     if (error) {
       setError('E-mail ou senha incorretos. Tente novamente.')
       setLoading(false)
       return
     }
-
     router.push('/dashboard')
     router.refresh()
   }
 
   return (
-    <div className="min-h-screen bg-brand-navy flex">
+    <div className="min-h-screen flex" style={{ backgroundColor: '#0f2f48' }}>
 
-      {/* ── Painel esquerdo — formulário ── */}
-      <div className="relative flex flex-col justify-center w-full max-w-md px-10 py-12 z-10">
-        {/* Glows */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-32 -left-32 w-64 h-64 bg-brand-orange/8 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-brand-terra/5 rounded-full blur-3xl" />
-        </div>
+      {/* ── PAINEL ESQUERDO — formulário ── */}
+      <div className="relative flex flex-col justify-between w-full max-w-[480px] px-12 py-10 z-10 flex-shrink-0">
 
-        <div className="relative">
-          {/* Logo */}
-          <div className="mb-10 flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-brand-navy-card flex items-center justify-center shadow-orange-lg flex-shrink-0 border border-brand-orange/20 overflow-hidden">
-              <Image
-                src="/onca-transparent.png"
-                alt="Logo Kolhey"
-                width={48}
-                height={48}
-                className="w-full h-full object-contain p-0.5"
-                priority
-              />
+        {/* Topo: wordmark */}
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden border border-brand-orange/25"
+              style={{ backgroundColor: '#081e30' }}>
+              <Image src="/onca-transparent.png" alt="Kolhey" width={40} height={40} className="w-full h-full object-contain p-0.5" priority />
             </div>
             <div>
-              <p className="font-display text-white font-bold text-2xl tracking-widest leading-none">
+              <p className="font-display text-white font-bold text-xl tracking-[0.2em] leading-none">
                 K<span className="text-brand-orange">O</span>LHEY
               </p>
-              <p className="text-white/35 text-[11px] italic font-light tracking-wide mt-0.5">
-                Resultados que se cultivam
+              <p className="text-white/30 text-[10px] italic font-light tracking-widest mt-0.5">
+                Resultad<span className="text-brand-orange">o</span>s que se cultivam
               </p>
             </div>
           </div>
+        </div>
 
-          {/* Cabeçalho do form */}
+        {/* Centro: form */}
+        <div className="flex-1 flex flex-col justify-center py-12">
+          {/* Título */}
           <div className="mb-8">
-            <h1 className="text-white font-semibold text-2xl leading-tight mb-1">
-              Bem-vindo de volta
+            <h1 className="font-display text-white font-bold text-3xl tracking-wide leading-tight mb-2">
+              Bem-vindo<br />de volta
             </h1>
+            <div className="w-8 h-0.5 bg-brand-orange rounded-full mb-4" />
             <p className="text-white/40 text-sm">
               Entre com sua conta para acessar o painel
             </p>
@@ -120,46 +110,53 @@ export default function LoginPage() {
               ) : 'Entrar'}
             </button>
           </form>
-
-          <p className="text-center text-white/25 text-xs mt-8">
-            Sem acesso? Fale com o administrador da Kolhey.
-          </p>
         </div>
+
+        {/* Rodapé */}
+        <p className="text-white/20 text-xs">
+          Sem acesso? Fale com o administrador da Kolhey.
+        </p>
       </div>
 
-      {/* ── Painel direito — onça Kolhey ── */}
-      <div className="hidden lg:flex flex-1 relative items-center justify-center overflow-hidden border-l border-white/5 bg-brand-navy-soft">
-        {/* Glow laranja de fundo */}
-        <div className="absolute inset-0 bg-gradient-to-br from-brand-orange/5 via-transparent to-brand-navy pointer-events-none" />
+      {/* ── PAINEL DIREITO — identidade visual ── */}
+      <div className="hidden lg:flex flex-1 relative overflow-hidden" style={{ backgroundColor: '#0a2236' }}>
 
-        {/* Logo onça — centralizada e grande */}
-        <div className="relative z-10 flex flex-col items-center gap-8">
-          <div className="w-80 h-80 flex items-center justify-center relative">
-            {/* Glow circular atrás da onça */}
-            <div className="absolute inset-0 rounded-full bg-brand-orange/8 blur-2xl" />
-            <Image
-              src="/onca-transparent.png"
-              alt="Onça Kolhey"
-              width={320}
-              height={320}
-              className="relative z-10 w-full h-full object-contain drop-shadow-[0_0_40px_rgba(242,137,51,0.3)]"
-              priority
-            />
-          </div>
+        {/* Linha divisória laranja */}
+        <div className="absolute left-0 top-0 bottom-0 w-px bg-brand-orange/20" />
 
-          {/* Wordmark abaixo da logo */}
-          <div className="text-center">
-            <p className="font-display text-white/85 font-bold text-5xl tracking-[0.15em] leading-none">
-              K<span className="text-brand-orange">O</span>LHEY
-            </p>
-            <p className="text-white/30 text-sm italic font-light tracking-widest mt-3">
-              Resultados que se cultivam
-            </p>
-          </div>
+        {/* Círculo de fundo — elemento compositivo */}
+        <div className="absolute right-[-20%] top-1/2 -translate-y-1/2 w-[110%] aspect-square rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 50%, transparent 70%)' }} />
+
+        {/* Jaguar — tratamento dark/monolítico como na identidade visual */}
+        <div className="absolute right-[-8%] top-1/2 -translate-y-[52%] w-[82%] aspect-square pointer-events-none select-none">
+          <Image
+            src="/onca-transparent.png"
+            alt=""
+            fill
+            className="object-contain"
+            style={{
+              filter: 'brightness(0.22) sepia(1) hue-rotate(188deg) saturate(2.5)',
+              opacity: 0.95,
+            }}
+            aria-hidden="true"
+            priority
+          />
         </div>
 
-        {/* Assinatura */}
-        <p className="absolute bottom-6 right-8 text-white/15 text-xs italic font-light">
+        {/* Wordmark principal — editorial, grande */}
+        <div className="absolute bottom-16 left-12 z-10">
+          <p className="font-display text-white font-bold leading-none tracking-[0.12em]"
+            style={{ fontSize: 'clamp(3.5rem, 6vw, 5.5rem)' }}>
+            K<span className="text-brand-orange">O</span>LHEY
+          </p>
+          <p className="text-white/40 text-base italic font-light tracking-widest mt-3">
+            Resultad<span className="text-brand-orange">o</span>s que se cultivam
+          </p>
+        </div>
+
+        {/* Assinatura script */}
+        <p className="absolute bottom-6 right-8 text-white/15 text-xs italic font-light" style={{ fontFamily: 'cursive' }}>
           By Kolhey
         </p>
       </div>

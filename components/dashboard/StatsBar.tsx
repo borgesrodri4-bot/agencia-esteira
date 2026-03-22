@@ -1,3 +1,7 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import NumberFlow from '@number-flow/react'
 import type { Client } from '@/lib/types'
 
 interface StatsBarProps {
@@ -6,6 +10,16 @@ interface StatsBarProps {
 
 const slaMap: Record<number, number> = {
   1: 24, 2: 72, 3: 168, 4: 360, 5: 720, 6: 120, 7: 720,
+}
+
+const containerVariants = {
+  hidden:  {},
+  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
+}
+
+const itemVariants = {
+  hidden:  { opacity: 0, y: 12, scale: 0.97 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as const } },
 }
 
 export default function StatsBar({ clients }: StatsBarProps) {
@@ -94,17 +108,22 @@ export default function StatsBar({ clients }: StatsBarProps) {
   ]
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
-      {stats.map((s, i) => (
-        <div
+    <motion.div
+      className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-8"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      {stats.map(s => (
+        <motion.div
           key={s.label}
-          className={`relative bg-brand-navy-card border ${s.accent} rounded-2xl p-4 overflow-hidden group
-            transition-all duration-300 hover:scale-[1.02] hover:shadow-lg`}
-          style={{ animationDelay: `${i * 60}ms` }}
+          variants={itemVariants}
+          whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+          className={`relative bg-brand-navy-card border ${s.accent} rounded-2xl p-4 overflow-hidden group`}
         >
-          {/* Glow de fundo sutil */}
+          {/* Glow de fundo sutil no hover */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300
-            bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+            bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
 
           <div className="flex items-start justify-between mb-3">
             <div className={`w-8 h-8 rounded-lg ${s.iconBg} ${s.iconColor} flex items-center justify-center flex-shrink-0`}>
@@ -117,10 +136,12 @@ export default function StatsBar({ clients }: StatsBarProps) {
             )}
           </div>
 
-          <p className={`text-3xl font-bold leading-none mb-1 ${s.valueColor}`}>{s.value}</p>
+          <p className={`text-3xl font-bold leading-none mb-1 tabular-nums ${s.valueColor}`}>
+            <NumberFlow value={s.value} />
+          </p>
           <p className="text-white/40 text-xs font-medium">{s.label}</p>
-        </div>
+        </motion.div>
       ))}
-    </div>
+    </motion.div>
   )
 }

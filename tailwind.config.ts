@@ -1,4 +1,6 @@
 import type { Config } from 'tailwindcss'
+import animate from 'tailwindcss-animate'
+import forms from '@tailwindcss/forms'
 
 const config: Config = {
   content: [
@@ -40,10 +42,48 @@ const config: Config = {
       boxShadow: {
         'orange':    '0 0 0 1px rgba(242,137,51,0.3)',
         'orange-lg': '0 4px 24px rgba(242,137,51,0.15)',
-      }
+        'orange-xl': '0 8px 40px rgba(242,137,51,0.25)',
+      },
+      keyframes: {
+        fadeUp: {
+          '0%':   { opacity: '0', transform: 'translateY(12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeIn: {
+          '0%':   { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideInLeft: {
+          '0%':   { opacity: '0', transform: 'translateX(-16px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        scaleIn: {
+          '0%':   { opacity: '0', transform: 'scale(0.95)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        shimmer: {
+          '0%':   { backgroundPosition: '-200% center' },
+          '100%': { backgroundPosition: '200% center' },
+        },
+        pulseGlow: {
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(242,137,51,0.4)' },
+          '50%':      { boxShadow: '0 0 0 6px rgba(242,137,51,0)' },
+        },
+      },
+      animation: {
+        'fade-up':        'fadeUp 0.3s cubic-bezier(0.16,1,0.3,1) both',
+        'fade-in':        'fadeIn 0.25s ease-out both',
+        'slide-in-left':  'slideInLeft 0.3s cubic-bezier(0.16,1,0.3,1) both',
+        'scale-in':       'scaleIn 0.2s cubic-bezier(0.16,1,0.3,1) both',
+        'shimmer':        'shimmer 2s linear infinite',
+        'pulse-glow':     'pulseGlow 2s ease-in-out infinite',
+      },
+      transitionTimingFunction: {
+        'spring': 'cubic-bezier(0.16, 1, 0.3, 1)',
+      },
     },
   },
-  plugins: [],
+  plugins: [animate, forms({ strategy: 'class' })],
 }
 
 export default config

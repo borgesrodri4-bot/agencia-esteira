@@ -4,57 +4,76 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── CSS Custom Properties ── */
+:root {
+  --duration-fast:   150ms;
+  --duration-base:   250ms;
+  --duration-slow:   400ms;
+  --ease-spring:     cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out:        cubic-bezier(0, 0, 0.2, 1);
+}
+
 @layer base {
   * {
     box-sizing: border-box;
-  }
-
-  /* Animações globais */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes shimmer {
-    0%   { background-position: -200% center; }
-    100% { background-position: 200% center; }
-  }
-  .animate-fadeIn {
-    animation: fadeIn 0.3s ease-out both;
   }
 
   body {
     background-color: #0f2f48;
     color: #FFFFFF;
     font-family: 'Montserrat', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  ::-webkit-scrollbar {
-    width: 6px;
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar       { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: #1a3d54; }
+  ::-webkit-scrollbar-thumb { background: rgba(242,137,51,0.5); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #f28933; }
+
+  /* ── Animações legadas (mantidas para compatibilidade) ── */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-  ::-webkit-scrollbar-track {
-    background: #1a3d54;
+  .animate-fadeIn {
+    animation: fadeIn 0.3s var(--ease-spring) both;
   }
-  ::-webkit-scrollbar-thumb {
-    background: #f28933;
-    border-radius: 3px;
+
+  /* ── Acessibilidade: respeitar preferência do usuário ── */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
 @layer components {
-  /* Botões */
+  /* ── Botões ── */
   .btn-primary {
-    @apply bg-brand-orange text-white font-semibold px-4 py-2 rounded-lg
-           hover:bg-brand-orange-light transition-colors duration-200 text-sm;
+    @apply inline-flex items-center gap-2 bg-brand-orange text-white font-semibold px-4 py-2 rounded-lg
+           hover:bg-brand-orange-light active:scale-[0.97]
+           transition-all duration-150 text-sm cursor-pointer select-none
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/50;
   }
   .btn-ghost {
-    @apply border border-brand-orange text-brand-orange px-4 py-2 rounded-lg
-           hover:bg-brand-orange-muted transition-colors duration-200 text-sm;
+    @apply inline-flex items-center gap-2 border border-brand-orange text-brand-orange px-4 py-2 rounded-lg
+           hover:bg-brand-orange-muted active:scale-[0.97]
+           transition-all duration-150 text-sm cursor-pointer select-none
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/50;
   }
   .btn-danger {
-    @apply bg-status-danger text-white px-4 py-2 rounded-lg
-           hover:opacity-90 transition-opacity duration-200 text-sm;
+    @apply inline-flex items-center gap-2 bg-status-danger text-white px-4 py-2 rounded-lg
+           hover:opacity-90 active:scale-[0.97]
+           transition-all duration-150 text-sm cursor-pointer select-none
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-status-danger/50;
   }
 
-  /* Cards */
+  /* ── Cards ── */
   .card {
     @apply bg-brand-navy-card border border-white/10 rounded-xl p-5;
   }
@@ -62,7 +81,7 @@
     @apply bg-brand-navy-card border border-brand-orange/30 rounded-xl p-5 shadow-orange;
   }
 
-  /* Inputs */
+  /* ── Inputs ── */
   .input {
     @apply w-full bg-brand-navy-soft border border-white/10 rounded-lg px-3 py-2
            text-white placeholder-white/30 text-sm
@@ -73,33 +92,35 @@
     @apply block text-xs font-medium text-white/60 mb-1 uppercase tracking-wide;
   }
 
-  /* Fases */
-  .phase-done {
-    @apply bg-brand-orange text-white font-semibold;
-  }
-  .phase-active {
-    @apply bg-brand-orange-muted text-brand-orange border border-brand-orange font-semibold;
-  }
-  .phase-pending {
-    @apply bg-brand-navy-soft text-white/30 border border-white/10;
+  /* ── Fases ── */
+  .phase-done    { @apply bg-brand-orange text-white font-semibold; }
+  .phase-active  { @apply bg-brand-orange-muted text-brand-orange border border-brand-orange font-semibold; }
+  .phase-pending { @apply bg-brand-navy-soft text-white/30 border border-white/10; }
+
+  /* ── Badges de status ── */
+  .badge-ok      { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-ok/20 text-status-ok border border-status-ok/20; }
+  .badge-warning { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-warning/20 text-status-warning border border-status-warning/20; }
+  .badge-danger  { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-danger/20 text-status-danger border border-status-danger/20; }
+  .badge-paused  { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-paused/20 text-status-paused border border-status-paused/20; }
+
+  /* ── Skeleton loader ── */
+  .skeleton {
+    @apply bg-gradient-to-r from-white/5 via-white/10 to-white/5 bg-[length:200%_100%] animate-shimmer rounded;
   }
 
-  /* Badge de status */
-  .badge-ok      { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-ok/20 text-status-ok; }
-  .badge-warning { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-warning/20 text-status-warning; }
-  .badge-danger  { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-danger/20 text-status-danger; }
-  .badge-paused  { @apply inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-status-paused/20 text-status-paused; }
+  /* ── Divider ── */
+  .divider-gold { @apply border-t border-brand-orange/20 my-4; }
 
-  /* Divider */
-  .divider-gold {
-    @apply border-t border-brand-orange/20 my-4;
-  }
-
-  /* Checkbox customizado */
+  /* ── Checkbox customizado ── */
   .checkbox-gold {
     @apply w-5 h-5 rounded border-2 border-white/30 bg-transparent
            checked:bg-brand-orange checked:border-brand-orange
            focus:outline-none focus:ring-2 focus:ring-brand-orange/30
            cursor-pointer transition-all duration-200;
+  }
+
+  /* ── Glow de fundo animado (decorativo) ── */
+  .glow-orange {
+    @apply absolute rounded-full bg-brand-orange/10 blur-3xl pointer-events-none;
   }
 }

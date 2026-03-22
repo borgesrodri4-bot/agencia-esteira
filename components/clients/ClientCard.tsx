@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { PHASES } from '@/lib/phases'
 import type { Client } from '@/lib/types'
 import PhaseIcon from '@/components/icons/PhaseIcon'
@@ -25,9 +28,15 @@ function getSlaStatus(client: Client): { label: string; cls: string; dot: string
 }
 
 const statusConfig: Record<string, { label: string; cls: string; dot: string }> = {
-  active:  { label: 'Ativo',   cls: 'text-status-ok bg-status-ok/10 border-status-ok/20',         dot: 'bg-status-ok' },
+  active:  { label: 'Ativo',   cls: 'text-status-ok bg-status-ok/10 border-status-ok/20',             dot: 'bg-status-ok' },
   paused:  { label: 'Pausado', cls: 'text-status-paused bg-status-paused/10 border-status-paused/20', dot: 'bg-status-paused' },
   churned: { label: 'Churn',   cls: 'text-status-danger bg-status-danger/10 border-status-danger/20', dot: 'bg-status-danger' },
+}
+
+// Variants exportados para o container pai fazer stagger
+export const cardVariants = {
+  hidden:  { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] as const } },
 }
 
 export default function ClientCard({ client }: ClientCardProps) {
@@ -38,96 +47,104 @@ export default function ClientCard({ client }: ClientCardProps) {
   const progress    = (client.current_phase - 1) / 6
 
   return (
-    <Link
-      href={`/clientes/${client.id}`}
-      className="group relative flex flex-col bg-brand-navy-card border border-white/8 rounded-2xl overflow-hidden
-        transition-all duration-300 hover:border-brand-orange/25 hover:shadow-orange-lg hover:-translate-y-0.5
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/50"
+    <motion.div
+      variants={cardVariants}
+      whileHover={{ y: -3, transition: { duration: 0.2, ease: [0.16, 1, 0.3, 1] } }}
+      className="group"
     >
-      {/* Barra de progresso no topo — laranja gradiente */}
-      <div className="h-0.5 w-full bg-white/5">
-        <div
-          className="h-full bg-orange-gradient transition-all duration-700"
-          style={{ width: `${progress * 100}%` }}
-        />
-      </div>
-
-      <div className="p-5 flex flex-col flex-1 gap-4">
-        {/* Linha 1: Nome + Status */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0 flex-1">
-            <h3 className="text-white font-semibold text-sm leading-snug truncate group-hover:text-brand-orange transition-colors duration-200">
-              {client.name}
-            </h3>
-            {client.niche && (
-              <p className="text-white/35 text-xs mt-0.5 truncate">{client.niche}</p>
-            )}
-          </div>
-          <span className={`inline-flex items-center gap-1.5 text-[10px] font-semibold px-2 py-1 rounded-full border flex-shrink-0 ${status.cls}`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
-            {status.label}
-          </span>
+      <Link
+        href={`/clientes/${client.id}`}
+        className="relative flex flex-col bg-brand-navy-card border border-white/8 rounded-2xl overflow-hidden
+          transition-shadow duration-300 group-hover:border-brand-orange/25 group-hover:shadow-orange-lg
+          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/50 block"
+      >
+        {/* Barra de progresso no topo */}
+        <div className="h-0.5 w-full bg-white/5">
+          <motion.div
+            className="h-full bg-orange-gradient"
+            initial={{ width: 0 }}
+            animate={{ width: `${progress * 100}%` }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          />
         </div>
 
-        {/* Linha 2: Fase atual */}
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-brand-orange-muted border border-brand-orange/20 rounded-xl flex items-center justify-center flex-shrink-0 text-brand-orange
-            group-hover:bg-brand-orange group-hover:border-brand-orange group-hover:text-white transition-all duration-300">
-            <PhaseIcon num={client.current_phase} className="w-3.5 h-3.5" />
-          </div>
-          <div className="min-w-0">
-            <p className="text-white text-xs font-medium leading-tight">
-              Fase {client.current_phase} · {phase?.label}
-            </p>
-            <p className="text-white/25 text-[10px] mt-0.5">{phase?.sla}</p>
-          </div>
-        </div>
-
-        {/* Linha 3: Mini barra das 7 fases */}
-        <div className="flex gap-0.5">
-          {PHASES.map(p => (
-            <div
-              key={p.num}
-              title={`Fase ${p.num}: ${p.label}`}
-              className={`flex-1 h-1 rounded-full transition-all duration-300 ${
-                p.num < client.current_phase  ? 'bg-brand-orange' :
-                p.num === client.current_phase ? 'bg-brand-orange/40' :
-                'bg-white/8'
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Linha 4: Rodapé — responsável + SLA */}
-        <div className="flex items-center justify-between pt-1 border-t border-white/5">
-          <div className="flex items-center gap-1.5 text-[10px] text-white/30">
-            {responsible?.name ? (
-              <>
-                <svg viewBox="0 0 16 16" fill="currentColor" className="w-3 h-3 flex-shrink-0">
-                  <path d="M8 8a3 3 0 100-6 3 3 0 000 6zM3 14a5 5 0 0110 0H3z" />
-                </svg>
-                <span className="truncate max-w-24">{responsible.name}</span>
-              </>
-            ) : (
-              <span className="italic text-white/20">Sem responsável</span>
-            )}
-          </div>
-
-          {sla ? (
-            <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-medium border ${sla.cls}`}>
-              <span className={`w-1 h-1 rounded-full ${sla.dot}`} />
-              {sla.label}
+        <div className="p-5 flex flex-col flex-1 gap-4">
+          {/* Linha 1: Nome + Status */}
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0 flex-1">
+              <h3 className="text-white font-semibold text-sm leading-snug truncate group-hover:text-brand-orange transition-colors duration-200">
+                {client.name}
+              </h3>
+              {client.niche && (
+                <p className="text-white/35 text-xs mt-0.5 truncate">{client.niche}</p>
+              )}
+            </div>
+            <span className={`inline-flex items-center gap-1.5 text-[10px] font-semibold px-2 py-1 rounded-full border flex-shrink-0 ${status.cls}`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
+              {status.label}
             </span>
-          ) : null}
-        </div>
-      </div>
+          </div>
 
-      {/* Seta hover */}
-      <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-1 group-hover:translate-x-0 pointer-events-none">
-        <svg viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 text-brand-orange">
-          <path fillRule="evenodd" d="M6.22 3.22a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 010-1.06z" clipRule="evenodd" />
-        </svg>
-      </div>
-    </Link>
+          {/* Linha 2: Fase atual */}
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-brand-orange-muted border border-brand-orange/20 rounded-xl flex items-center justify-center flex-shrink-0 text-brand-orange
+              group-hover:bg-brand-orange group-hover:border-brand-orange group-hover:text-white transition-all duration-300">
+              <PhaseIcon num={client.current_phase} className="w-3.5 h-3.5" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-white text-xs font-medium leading-tight">
+                Fase {client.current_phase} · {phase?.label}
+              </p>
+              <p className="text-white/25 text-[10px] mt-0.5">{phase?.sla}</p>
+            </div>
+          </div>
+
+          {/* Linha 3: Mini barra das 7 fases */}
+          <div className="flex gap-0.5">
+            {PHASES.map(p => (
+              <div
+                key={p.num}
+                title={`Fase ${p.num}: ${p.label}`}
+                className={`flex-1 h-1 rounded-full transition-all duration-500 ${
+                  p.num < client.current_phase  ? 'bg-brand-orange' :
+                  p.num === client.current_phase ? 'bg-brand-orange/40' :
+                  'bg-white/8'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Linha 4: Rodapé */}
+          <div className="flex items-center justify-between pt-1 border-t border-white/5">
+            <div className="flex items-center gap-1.5 text-[10px] text-white/30">
+              {responsible?.name ? (
+                <>
+                  <svg viewBox="0 0 16 16" fill="currentColor" className="w-3 h-3 flex-shrink-0">
+                    <path d="M8 8a3 3 0 100-6 3 3 0 000 6zM3 14a5 5 0 0110 0H3z" />
+                  </svg>
+                  <span className="truncate max-w-24">{responsible.name}</span>
+                </>
+              ) : (
+                <span className="italic text-white/20">Sem responsável</span>
+              )}
+            </div>
+
+            {sla && (
+              <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-medium border ${sla.cls}`}>
+                <span className={`w-1 h-1 rounded-full ${sla.dot}`} />
+                {sla.label}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Seta hover */}
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-1 transition-all duration-200 pointer-events-none">
+          <svg viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 text-brand-orange">
+            <path fillRule="evenodd" d="M6.22 3.22a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 010-1.06z" clipRule="evenodd" />
+          </svg>
+        </div>
+      </Link>
+    </motion.div>
   )
 }

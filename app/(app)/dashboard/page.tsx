@@ -2,12 +2,18 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import Header from '@/components/layout/Header'
 import ClientCard from '@/components/clients/ClientCard'
 import StatsBar from '@/components/dashboard/StatsBar'
 import { useClients } from '@/hooks/useClients'
 import { PHASES } from '@/lib/phases'
 import { createClient } from '@/lib/supabase/client'
+
+const gridVariants = {
+  hidden:  {},
+  visible: { transition: { staggerChildren: 0.05, delayChildren: 0.1 } },
+}
 
 function getGreeting() {
   const h = new Date().getHours()
@@ -47,12 +53,19 @@ export default function DashboardPage() {
 
         {/* Banner de boas-vindas */}
         {!loading && (
-          <div className="relative bg-brand-navy-card border border-white/8 rounded-2xl px-6 py-5 overflow-hidden">
-            {/* Glow laranja */}
-            <div className="absolute -top-8 -right-8 w-48 h-48 bg-brand-orange/8 rounded-full blur-2xl pointer-events-none" />
+          <div className="relative rounded-2xl px-6 py-5 overflow-hidden border border-brand-orange/20"
+            style={{ backgroundColor: '#0a2438', boxShadow: 'inset 0 0 60px rgba(242,137,51,0.05), 0 0 0 1px rgba(242,137,51,0.1)' }}>
+            {/* Glow laranja forte no canto */}
+            <div className="absolute -top-10 -right-10 w-56 h-56 rounded-full blur-3xl pointer-events-none"
+              style={{ background: 'rgba(242,137,51,0.18)' }} />
+            <div className="absolute -bottom-8 -left-8 w-40 h-40 rounded-full blur-3xl pointer-events-none"
+              style={{ background: 'rgba(242,137,51,0.06)' }} />
+            {/* Linha laranja no topo */}
+            <div className="absolute top-0 left-0 right-0 h-px bg-orange-gradient opacity-60" />
+
             <div className="relative flex items-center justify-between gap-4 flex-wrap">
               <div>
-                <p className="text-white/40 text-xs mb-1 capitalize">{today}</p>
+                <p className="text-brand-orange/60 text-xs mb-1 capitalize font-medium">{today}</p>
                 <h2 className="text-white font-semibold text-xl leading-tight">
                   {getGreeting()}{userName ? `, ${userName}` : ''}!
                 </h2>
@@ -184,17 +197,16 @@ export default function DashboardPage() {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-            {filtered.map((client, i) => (
-              <div
-                key={client.id}
-                className="animate-fadeIn"
-                style={{ animationDelay: `${i * 40}ms`, animationFillMode: 'both' }}
-              >
-                <ClientCard client={client} />
-              </div>
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3"
+            variants={gridVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {filtered.map(client => (
+              <ClientCard key={client.id} client={client} />
             ))}
-          </div>
+          </motion.div>
         )}
       </main>
     </div>

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState } from 'react'
 
@@ -40,8 +41,8 @@ const navItems = [
 export default function Sidebar() {
   const pathname  = usePathname()
   const router    = useRouter()
-  const [name, setName]   = useState('')
-  const [role, setRole]   = useState('')
+  const [name, setName] = useState('')
+  const [role, setRole] = useState('')
 
   useEffect(() => {
     const supabase = createClient()
@@ -64,7 +65,12 @@ export default function Sidebar() {
   return (
     <>
       {/* ── DESKTOP: sidebar lateral ── */}
-      <aside className="hidden md:flex w-56 min-h-screen bg-brand-navy-soft border-r border-white/5 flex-col">
+      <motion.aside
+        initial={{ x: -16, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        className="hidden md:flex w-56 min-h-screen bg-brand-navy-soft border-r border-white/5 flex-col"
+      >
         {/* Logo */}
         <div className="p-5 border-b border-white/5">
           <div className="flex items-center gap-2.5">
@@ -75,7 +81,7 @@ export default function Sidebar() {
               <p className="font-display text-white font-semibold text-sm leading-none tracking-widest">
                 K<span className="text-brand-orange">O</span>LHEY
               </p>
-              <p className="text-white/30 text-[10px] mt-0.5 italic font-light">Resultados que se cultivam</p>
+              <p className="text-white/30 text-[10px] mt-0.5 italic font-light">Resultad<span className="text-brand-orange">o</span>s que se cultivam</p>
             </div>
           </div>
         </div>
@@ -88,16 +94,20 @@ export default function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200
+                className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-colors duration-150
                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/50 ${
                   isActive
                     ? 'bg-brand-orange-muted text-brand-orange font-medium'
                     : 'text-white/45 hover:text-white hover:bg-white/5'
                 }`}
               >
-                {/* Indicador lateral */}
+                {/* Indicador lateral com layoutId — desliza suavemente entre itens */}
                 {isActive && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-brand-orange rounded-r-full" />
+                  <motion.span
+                    layoutId="sidebar-indicator"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-brand-orange rounded-r-full"
+                    transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                  />
                 )}
                 {item.icon}
                 {item.label}
@@ -132,7 +142,7 @@ export default function Sidebar() {
             Sair
           </button>
         </div>
-      </aside>
+      </motion.aside>
 
       {/* ── MOBILE: barra inferior ── */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand-navy-soft/95 backdrop-blur border-t border-white/8 flex items-center" role="navigation" aria-label="Menu mobile">
@@ -147,7 +157,13 @@ export default function Sidebar() {
             >
               {item.icon}
               <span className="text-[10px] font-medium">{item.label}</span>
-              {isActive && <span className="absolute bottom-0 w-6 h-0.5 bg-brand-orange rounded-t-full" />}
+              {isActive && (
+                <motion.span
+                  layoutId="mobile-indicator"
+                  className="absolute bottom-0 w-6 h-0.5 bg-brand-orange rounded-t-full"
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                />
+              )}
             </Link>
           )
         })}
