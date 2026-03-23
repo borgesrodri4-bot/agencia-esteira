@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useMemo, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useMemo, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Header from '@/components/layout/Header'
 import { useClients } from '@/hooks/useClients'
