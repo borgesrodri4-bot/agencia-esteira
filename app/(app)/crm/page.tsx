@@ -7,36 +7,6 @@ import Header from '@/components/layout/Header'
 import { useClients } from '@/hooks/useClients'
 import { PHASES } from '@/lib/phases'
 
-// Neo-Brutalism animation variants
-const brutVariants = {
-  container: {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-    },
-  },
-  item: {
-    hidden: { opacity: 0, y: 40, rotate: -2 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      rotate: 0,
-      transition: { type: 'spring', stiffness: 100, damping: 12 },
-    },
-  },
-  cardHover: {
-    rest: { scale: 1, rotate: 0 },
-    hover: {
-      scale: 1.05,
-      rotate: 1,
-      boxShadow: '8px 8px 0px #f28933, 16px 16px 0px rgba(242,137,51,0.2)',
-      transition: { type: 'spring', stiffness: 300, damping: 20 },
-    },
-  },
-}
-
-// Animated counter component
 function AnimatedCounter({ value, suffix = '' }: { value: number; suffix?: string }) {
   const [displayValue, setDisplayValue] = useState(0)
 
@@ -52,129 +22,6 @@ function AnimatedCounter({ value, suffix = '' }: { value: number; suffix?: strin
   }, [value])
 
   return <span>{displayValue}{suffix}</span>
-}
-
-// Neo-Brutalism stat card
-function StatCard({ label, value, icon, color = 'orange' }: any) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <motion.div
-      className={`relative p-6 border-4 cursor-pointer transition-all ${
-        color === 'orange'
-          ? 'border-brand-orange bg-brand-orange/5'
-          : color === 'blue'
-          ? 'border-brand-navy bg-brand-navy/10'
-          : 'border-brand-terra bg-brand-terra/5'
-      }`}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      whileHover={{ y: -8 }}
-      variants={brutVariants.item}
-    >
-      {/* Bold border accent on hover */}
-      <motion.div
-        className={`absolute -top-2 -right-2 w-12 h-12 border-4 ${
-          color === 'orange' ? 'border-brand-orange' : 'border-brand-navy'
-        }`}
-        animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1 : 0.8 }}
-        transition={{ duration: 0.3 }}
-      />
-
-      <div className="relative z-10">
-        <div className="flex items-start justify-between mb-4">
-          <span className="text-4xl">{icon}</span>
-          <div className={`w-1.5 h-12 ${color === 'orange' ? 'bg-brand-orange' : 'bg-brand-navy'}`} />
-        </div>
-        <p className="text-white/60 text-xs font-black uppercase tracking-widest mb-2">{label}</p>
-        <p className="text-white font-display text-5xl font-black">
-          <AnimatedCounter value={value} suffix={label.includes('Valor') ? 'k' : ''} />
-        </p>
-      </div>
-    </motion.div>
-  )
-}
-
-// Neo-Brutalism client card
-function ClientCard({ client, phase }: any) {
-  const [isHovered, setIsHovered] = useState(false)
-
-  return (
-    <motion.div
-      variants={brutVariants.cardHover}
-      initial="rest"
-      whileHover="hover"
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className="group"
-    >
-      <Link href={`/clientes/${client.id}`}>
-        <div className="relative p-5 border-4 border-brand-orange bg-brand-navy-card overflow-hidden cursor-pointer">
-          {/* Bold background pattern */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-brand-orange/10" />
-            <div className="absolute bottom-0 left-0 w-16 h-16 bg-brand-orange/5" />
-          </div>
-
-          {/* Animated top accent line */}
-          <motion.div
-            className="absolute top-0 left-0 h-1 bg-brand-orange"
-            animate={{ width: isHovered ? '100%' : '0%' }}
-            transition={{ duration: 0.4 }}
-          />
-
-          <div className="relative z-10">
-            {/* Header with status */}
-            <div className="flex items-start justify-between mb-4 pb-3 border-b-2 border-brand-orange/20">
-              <div className="flex-1">
-                <h4 className="text-white font-black text-lg leading-tight group-hover:text-brand-orange transition-colors">
-                  {client.name}
-                </h4>
-              </div>
-              <motion.div
-                className={`text-xs font-black px-3 py-1.5 border-2 ${
-                  client.status === 'active'
-                    ? 'border-green-500 bg-green-500/10 text-green-400'
-                    : client.status === 'paused'
-                    ? 'border-yellow-500 bg-yellow-500/10 text-yellow-400'
-                    : 'border-red-500 bg-red-500/10 text-red-400'
-                }`}
-                animate={{ scale: isHovered ? 1.1 : 1 }}
-              >
-                {client.status === 'active' ? '🔥 ATIVO' : client.status === 'paused' ? '⏸ PAUSADO' : '❌ CHURN'}
-              </motion.div>
-            </div>
-
-            {/* Value display */}
-            {client.value && (
-              <div className="mb-4">
-                <p className="text-white/50 text-xs font-black uppercase mb-1">Valor</p>
-                <p className="text-brand-orange font-display font-black text-2xl">
-                  R$ {(client.value / 1000).toFixed(1)}k
-                </p>
-              </div>
-            )}
-
-            {/* Phase progress indicator */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <p className="text-white/40 text-xs font-black uppercase">Progresso</p>
-                <p className="text-brand-orange font-black text-xs">{Math.round((PHASES.findIndex(p => p.num === client.current_phase) / 7) * 100)}%</p>
-              </div>
-              <div className="h-2 border-2 border-brand-orange/30 bg-brand-navy">
-                <motion.div
-                  className="h-full bg-brand-orange"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${(PHASES.findIndex(p => p.num === client.current_phase) / 7) * 100}%` }}
-                  transition={{ duration: 0.8, ease: 'easeOut' }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </Link>
-    </motion.div>
-  )
 }
 
 export default function CRMPage() {
@@ -214,21 +61,58 @@ export default function CRMPage() {
         {/* Bold Stats Section */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          variants={brutVariants.container}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ staggerChildren: 0.1 }}
         >
-          <StatCard label="Total de Clientes" value={stats.total} icon="👥" color="orange" />
-          <StatCard label="Clientes Ativos" value={stats.active} icon="⚡" color="blue" />
-          <StatCard label="Valor em Pipeline" value={stats.totalValue} icon="💰" color="terra" />
+          {[
+            { label: 'Total de Clientes', value: stats.total, icon: '👥', color: 'orange' },
+            { label: 'Clientes Ativos', value: stats.active, icon: '⚡', color: 'blue' },
+            { label: 'Valor em Pipeline', value: stats.totalValue, icon: '💰', color: 'terra' },
+          ].map((stat, i) => (
+            <motion.div
+              key={i}
+              className={`relative p-6 border-4 cursor-pointer transition-all ${
+                stat.color === 'orange'
+                  ? 'border-brand-orange bg-brand-orange/5'
+                  : stat.color === 'blue'
+                  ? 'border-brand-navy bg-brand-navy/10'
+                  : 'border-brand-terra bg-brand-terra/5'
+              }`}
+              whileHover={{ y: -8 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <motion.div
+                className={`absolute -top-2 -right-2 w-12 h-12 border-4 ${
+                  stat.color === 'orange' ? 'border-brand-orange' : 'border-brand-navy'
+                }`}
+                animate={{ opacity: 0, scale: 0.8 }}
+                whileHover={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+
+              <div className="relative z-10">
+                <div className="flex items-start justify-between mb-4">
+                  <span className="text-4xl">{stat.icon}</span>
+                  <div className={`w-1.5 h-12 ${stat.color === 'orange' ? 'bg-brand-orange' : 'bg-brand-navy'}`} />
+                </div>
+                <p className="text-white/60 text-xs font-black uppercase tracking-widest mb-2">{stat.label}</p>
+                <p className="text-white font-display text-5xl font-black">
+                  <AnimatedCounter value={stat.value} suffix={stat.label.includes('Valor') ? 'k' : ''} />
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </motion.div>
 
-        {/* Controls Section - Bold and Minimal */}
+        {/* Controls Section */}
         <motion.div
           className="space-y-4"
-          variants={brutVariants.item}
-          initial="hidden"
-          animate="visible"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
         >
           {/* Search and View Toggle */}
           <div className="flex gap-3 flex-col md:flex-row">
@@ -270,7 +154,7 @@ export default function CRMPage() {
             </div>
           </div>
 
-          {/* Phase filter buttons - Bold and Chunky */}
+          {/* Phase filter buttons */}
           <div className="flex gap-2 flex-wrap">
             <button
               onClick={() => setSelectedPhase(null)}
@@ -309,13 +193,18 @@ export default function CRMPage() {
           /* Kanban View */
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-max"
-            variants={brutVariants.container}
-            initial="hidden"
-            animate="visible"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
           >
-            {PHASES.map(phase => (
-              <motion.div key={phase.num} className="space-y-4" variants={brutVariants.item}>
-                {/* Phase header - Bold */}
+            {PHASES.map((phase, phaseIdx) => (
+              <motion.div
+                key={phase.num}
+                className="space-y-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: phaseIdx * 0.1 }}
+              >
+                {/* Phase header */}
                 <div className="border-b-4 border-brand-orange pb-3">
                   <h3 className="text-white font-display font-black text-2xl">FASE {phase.num}</h3>
                   <p className="text-brand-orange font-black text-xs uppercase mt-1">
@@ -337,7 +226,69 @@ export default function CRMPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.05 }}
                       >
-                        <ClientCard client={client} phase={phase} />
+                        <Link href={`/clientes/${client.id}`}>
+                          <motion.div
+                            className="relative p-5 border-4 border-brand-orange bg-brand-navy-card overflow-hidden cursor-pointer"
+                            whileHover={{
+                              scale: 1.05,
+                              rotate: 1,
+                              boxShadow: '8px 8px 0px #f28933',
+                            }}
+                          >
+                            <motion.div
+                              className="absolute top-0 left-0 h-1 bg-brand-orange"
+                              initial={{ width: 0 }}
+                              whileHover={{ width: '100%' }}
+                              transition={{ duration: 0.4 }}
+                            />
+
+                            <div className="relative z-10">
+                              <div className="flex items-start justify-between mb-4 pb-3 border-b-2 border-brand-orange/20">
+                                <h4 className="text-white font-black text-lg leading-tight group-hover:text-brand-orange transition-colors flex-1">
+                                  {client.name}
+                                </h4>
+                                <motion.div
+                                  className={`text-xs font-black px-3 py-1.5 border-2 ${
+                                    client.status === 'active'
+                                      ? 'border-green-500 bg-green-500/10 text-green-400'
+                                      : client.status === 'paused'
+                                      ? 'border-yellow-500 bg-yellow-500/10 text-yellow-400'
+                                      : 'border-red-500 bg-red-500/10 text-red-400'
+                                  }`}
+                                  whileHover={{ scale: 1.1 }}
+                                >
+                                  {client.status === 'active' ? '🔥 ATIVO' : client.status === 'paused' ? '⏸ PAUSADO' : '❌ CHURN'}
+                                </motion.div>
+                              </div>
+
+                              {client.value && (
+                                <div className="mb-4">
+                                  <p className="text-white/50 text-xs font-black uppercase mb-1">Valor</p>
+                                  <p className="text-brand-orange font-display font-black text-2xl">
+                                    R$ {(client.value / 1000).toFixed(1)}k
+                                  </p>
+                                </div>
+                              )}
+
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <p className="text-white/40 text-xs font-black uppercase">Progresso</p>
+                                  <p className="text-brand-orange font-black text-xs">
+                                    {Math.round((PHASES.findIndex(p => p.num === client.current_phase) / 7) * 100)}%
+                                  </p>
+                                </div>
+                                <div className="h-2 border-2 border-brand-orange/30 bg-brand-navy">
+                                  <motion.div
+                                    className="h-full bg-brand-orange"
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${(PHASES.findIndex(p => p.num === client.current_phase) / 7) * 100}%` }}
+                                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        </Link>
                       </motion.div>
                     ))
                   )}
@@ -349,14 +300,14 @@ export default function CRMPage() {
           /* List View */
           <motion.div
             className="space-y-3"
-            variants={brutVariants.container}
-            initial="hidden"
-            animate="visible"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
           >
             {filteredClients.length === 0 ? (
               <motion.div
                 className="text-center py-20 border-4 border-dashed border-brand-orange/30"
-                variants={brutVariants.item}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
               >
                 <p className="text-white/40 font-black text-lg uppercase mb-4">NENHUM CLIENTE ENCONTRADO</p>
                 <Link href="/clientes/novo" className="inline-block px-6 py-3 border-4 border-brand-orange bg-brand-orange text-brand-navy font-black uppercase hover:bg-brand-orange/90 transition-all">
@@ -371,7 +322,36 @@ export default function CRMPage() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: idx * 0.05 }}
                 >
-                  <ClientCard client={client} phase={null} />
+                  <Link href={`/clientes/${client.id}`}>
+                    <motion.div
+                      className="relative p-5 border-4 border-brand-orange bg-brand-navy-card overflow-hidden cursor-pointer"
+                      whileHover={{
+                        scale: 1.02,
+                        boxShadow: '8px 8px 0px #f28933',
+                      }}
+                    >
+                      <div className="relative z-10 flex items-center justify-between">
+                        <div className="flex-1">
+                          <h4 className="text-white font-black text-lg mb-2">{client.name}</h4>
+                          <p className="text-white/50 text-sm">Fase {client.current_phase}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-brand-orange font-display font-black text-2xl">
+                            R$ {(client.value / 1000).toFixed(1)}k
+                          </p>
+                          <p className={`text-xs font-black mt-2 ${
+                            client.status === 'active'
+                              ? 'text-green-400'
+                              : client.status === 'paused'
+                              ? 'text-yellow-400'
+                              : 'text-red-400'
+                          }`}>
+                            {client.status === 'active' ? '🔥 ATIVO' : client.status === 'paused' ? '⏸ PAUSADO' : '❌ CHURN'}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </Link>
                 </motion.div>
               ))
             )}
